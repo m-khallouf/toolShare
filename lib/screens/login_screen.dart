@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widget/social_button.dart';
 import 'sign_up_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -15,6 +16,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
   bool _obscurePassword = true; // To toggle password visibility
 
+  static const double buttonHeight = 50.0;
+  static const double buttonWidth = 330.0;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,22 +31,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 alignment: Alignment.topCenter,
                 child: Padding(
                   padding: EdgeInsets.only(top: 140.0),
-                  child: Text(
-                    'Welcome back!',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  child: Text('Welcome back!',style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
               const Align(
                 alignment: Alignment.topCenter,
-                child: Padding(
-                  padding: EdgeInsets.only(top: 10.0),
-                  child: Text(
-                    'Please enter your details',
-                  ),
+                child: Padding(padding: EdgeInsets.only(top: 10.0), child: Text('Please enter your details'),
                 ),
               ),
               Align(
@@ -59,9 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             width: 330,
                             child: TextFormField(
                               controller: _emailController,
-                              decoration: const InputDecoration(
-                                labelText: 'Email',
-                              ),
+                              decoration: const InputDecoration(labelText: 'Email'),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter your email';
@@ -85,24 +78,15 @@ class _LoginScreenState extends State<LoginScreen> {
                               decoration: InputDecoration(
                                 labelText: 'Password',
                                 suffixIcon: IconButton(
-                                  icon: Icon(_obscurePassword
-                                      ? Icons.visibility_off
-                                      : Icons.visibility),
-                                  onPressed: () {
-                                    setState(() {
-                                      _obscurePassword = !_obscurePassword;
-                                    });
-                                  },
+                                  icon: Icon(_obscurePassword ? Icons.visibility_off: Icons.visibility),
+                                  onPressed: () { setState(() { _obscurePassword = !_obscurePassword; });},
                                 ),
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter your password';
                                 }
-                                if (value.length < 6) {
-                                  return 'Password must be at least 6 characters long';
-                                }
-                                return null;
+                                return value.length < 8 ? 'Password must be at least 8 characters long': null;
                               },
                             ),
                           ),
@@ -112,72 +96,30 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: 330,
                           height: 50,
                           child: ElevatedButton(
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Login Successful'),
-                                  ),
-                                );
-                              }
-                            },
+                            onPressed: () {},
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.black,
-                              foregroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
+                              backgroundColor: Colors.black, foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                             ),
                             child: const Text('Login'),
                           ),
                         ),
                         const SizedBox(height: 20),
-                        SizedBox(
-                          width: 330,
-                          height: 50,
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white38,
-                              foregroundColor: Colors.black,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset('images/google.png', width: 24, height: 24),
-                                const SizedBox(width: 10),
-                                const Text('Log in with Google'),
 
-                              ],
-                            ),
-                          ),
+                        SocialButton(imagePath: 'images/apple.png', text: 'Log in with Apple',
+                          onPressed: () {
+                            // Handle Apple login
+                          },
                         ),
                         const SizedBox(height: 20),
-                        SizedBox(
-                          width: 330,
-                          height: 50,
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white38,
-                              foregroundColor: Colors.black,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset('images/apple.png', width: 24, height: 24),
-                                const SizedBox(width: 10),
-                                const Text('Log in with Apple'),
-                              ],
-                            ),
-                          ),
+
+                        SocialButton(imagePath: 'images/google.png', text: 'Log in with Google',
+                          onPressed: () {
+                            // Handle Apple login
+                          },
                         ),
+
+                        const SizedBox(height: 20),
                       ],
                     ),
                   ),

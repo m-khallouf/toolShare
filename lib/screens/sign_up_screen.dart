@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widget/social_button.dart';
 
 
 class SignUpScreen extends StatelessWidget {
@@ -27,80 +28,23 @@ class SignUpScreen extends StatelessWidget {
                     key: _formKey,
                     child: Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: SizedBox(
-                            width: 330, height: 50,
-                            child: ElevatedButton(
-                              onPressed: (){},
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white38,
-                                foregroundColor: Colors.black,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset('images/google.png', width: 24, height: 24),
-                                  const SizedBox(width: 10),
-                                  const Text('continue with Google'),
-                                ],
-                              ),
-                            ),
-                          ),
+                        SocialButton(imagePath: 'images/apple.png', text: 'continue with Apple',
+                          onPressed: () {
+                            // Handle Apple login
+                          },
                         ),
                         const SizedBox(height: 20.0),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: SizedBox(
-                              width: 330, height: 50,
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.white38,
-                                  foregroundColor: Colors.black,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset('images/apple.png', width: 24, height: 24),
-                                    const SizedBox(width: 10),
-                                    const Text('continue with Apple'),
-                                  ],
-                                ),
-                              )
-                          ),
+                        SocialButton(imagePath: 'images/google.png', text: 'continue with Google',
+                          onPressed: () {
+                            // Handle Google login
+                          },
                         ),
 
                         const SizedBox(height: 20.0),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: SizedBox(
-                              width: 330, height: 50,
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.white38,
-                                  foregroundColor: Colors.black,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset('images/email.png', width: 24, height: 24),
-                                    const SizedBox(width: 10),
-                                    const Text('continue with email'),
-                                  ],
-                                ),
-                              )
-                          ),
+                        SocialButton(imagePath: 'images/email.png', text: 'continue with email',
+                          onPressed: () {
+                            // Handle email login
+                          },
                         ),
                       ],
                     ),
