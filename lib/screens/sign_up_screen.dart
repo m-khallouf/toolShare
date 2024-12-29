@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widget/social_button.dart';
+import 'create_an_account.dart';
 
 
 class SignUpScreen extends StatelessWidget {
@@ -42,9 +43,9 @@ class SignUpScreen extends StatelessWidget {
 
                         const SizedBox(height: 20.0),
                         SocialButton(imagePath: 'images/email.png', text: 'continue with email',
-                          onPressed: () {
-                            // Handle email login
-                          },
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => CreateAnAccountScreen(),),);
+                            },
                         ),
                       ],
                     ),
