@@ -29,20 +29,20 @@ class SignUpScreen extends StatelessWidget {
                     key: _formKey,
                     child: Column(
                       children: [
-                        SocialButton(imagePath: 'images/apple.png', text: 'continue with Apple',
+                        SocialButton(imagePath: 'images/appleIcon.png', text: 'continue with Apple',
                           onPressed: () {
                             // TODO: Handle Apple login
                           },
                         ),
                         const SizedBox(height: 20.0),
-                        SocialButton(imagePath: 'images/google.png', text: 'continue with Google',
+                        SocialButton(imagePath: 'images/googleIcon.png', text: 'continue with Google',
                           onPressed: () {
                             // TODO: Handle Google login
                           },
                         ),
 
                         const SizedBox(height: 20.0),
-                        SocialButton(imagePath: 'images/email.png', text: 'continue with email',
+                        SocialButton(imagePath: 'images/emailIcon.png', text: 'continue with email',
                             onPressed: () {
                               Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateAnAccountScreen(),),);
                             },

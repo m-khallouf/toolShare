@@ -119,14 +119,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         const SizedBox(height: 20),
 
-                        SocialButton(imagePath: 'images/apple.png', text: 'Log in with Apple',
+                        SocialButton(imagePath: 'images/appleIcon.png', text: 'Log in with Apple',
                           onPressed: () {
                             // TODO: Handle Apple login
                           },
                         ),
                         const SizedBox(height: 20),
 
-                        SocialButton(imagePath: 'images/google.png', text: 'Log in with Google',
+                        SocialButton(imagePath: 'images/googleIcon.png', text: 'Log in with Google',
                           onPressed: () {
                             // TODO: Handle Google login
                           },
