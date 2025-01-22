@@ -1,6 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../widget/password_requirements.dart';
 
+
+final _emailController = TextEditingController();
+final _passwordController = TextEditingController();
 
 class CreateAnAccountScreen extends StatefulWidget {
   const CreateAnAccountScreen({super.key});
@@ -11,8 +15,6 @@ class CreateAnAccountScreen extends StatefulWidget {
 
 class _CreateAnAccountScreenState extends State<CreateAnAccountScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
   bool _obscurePassword = true;
 
   // Password requirement flags
@@ -106,55 +108,40 @@ class _CreateAnAccountScreenState extends State<CreateAnAccountScreen> {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 40.0),
-                          child: Column(
-                            // crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              PasswordRequirements(
-                                isValid: _hasMinLength,
-                                text: 'Password must be at least 8 characters long',
-                              ),
-                            ],
-                          ),
+                        PasswordRequirements(
+                          isValid: _hasMinLength,
+                          text: 'Password must be at least 8 characters long',
                         ),
-                        const SizedBox(height: 20),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 40.0),
-                          child: Column(
-                            // crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              PasswordRequirements(
-                                isValid: _hasNumber,
-                                text: 'Password must include a number',
-                              ),
-                            ],
-                          ),
+                        PasswordRequirements(
+                          isValid: _hasUpperCase,
+                          text: 'Password must contain uppercase letter',
                         ),
-                        const SizedBox(height: 20),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 40.0),
-                          child: Column(
-                            // crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              PasswordRequirements(
-                                isValid: _hasSpecialChar,
-                                text: 'Password must include a special character',
-                              ),
-                            ],
-                          ),
+                        PasswordRequirements(
+                          isValid: _hasSpecialChar,
+                          text: 'Password must contain special character',
                         ),
+                        PasswordRequirements(
+                          isValid: _hasNumber,
+                          text: 'Password must contain a number',
+                        ),
+
                         const SizedBox(height: 20),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 40.0),
-                          child: Column(
-                            // crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              PasswordRequirements(
-                                isValid: _hasUpperCase,
-                                text: 'Password must include an uppercase letter',
-                              ),
-                            ],
+
+                        SizedBox(
+                          width: 330, height: 50,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              final auth = FirebaseAuth.instance;
+                              auth.createUserWithEmailAndPassword(
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.black, foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                            ),
+                            child: const Text('create'),
                           ),
                         ),
                       ],

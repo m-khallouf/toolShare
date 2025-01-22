@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "436096649025",
+    "project_id": "flutter-toolshare",
+    "storage_bucket": "flutter-toolshare.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:436096649025:android:a09f76eb7dc90f0c65c3c0",
+        "android_client_info": {
+          "package_name": "com.example.tool_share"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAap51bWOSzVBj-t808awDZhznb_D-iRR4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
