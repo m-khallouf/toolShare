@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import '/screens/navbar_screen.dart';
 import '../widget/social_button.dart';
 import 'sign_up_screen.dart';
+import 'package:tool_share/screens/sql_injection.dart';
+
 final _emailController = TextEditingController();
 final _passwordController = TextEditingController();
 class LoginScreen extends StatefulWidget {
@@ -18,9 +20,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
 
   bool _obscurePassword = true; // To toggle password visibility
-
-  static const double buttonHeight = 50.0;
-  static const double buttonWidth = 330.0;
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +101,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: ElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                login(context); // Pass context here
+                                if (_isSQLInjectionAttempt(_emailController.text) || _isSQLInjectionAttempt(_passwordController.text)) {
+                                  _showInjectionScreen(context);
+                                } else {
+                                  login(context); // Normal login if no SQL Injection
+                                }
                               } else {
                                 debugPrint('LOG: Form validation failed');
                               }
@@ -172,6 +175,85 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+}
+
+bool _isSQLInjectionAttempt(String input) {
+  // List of common SQL injection phrases
+  List<String> sqlInjectionPatterns = [
+    "' OR '1'='1",
+    "' OR '1'='1' --",
+    "' OR 1=1 --",
+    "' UNION SELECT NULL, username, password FROM users --",
+    "' UNION SELECT NULL, NULL, NULL --",
+    "' AND 1=1 --",
+    "' AND 1=1#",
+    "' AND 'a'='a",
+    "' OR EXISTS(SELECT * FROM users WHERE 'a'='a') --",
+    "' OR 'a'='a' --",
+    "' AND 1=2 --",
+    "' OR 'x'='x",
+    "' OR 'x'='x' --",
+    "' AND 1=1#",
+    "' AND 1=1/*",
+    "' DROP TABLE users --",
+    "' OR 1=1; --",
+    "' UNION SELECT null, null, username, password FROM users --",
+    "' HAVING 1=1 --",
+    "' SELECT * FROM users WHERE 'a'='a' --",
+    "' SELECT user(), version() --",
+    "' SELECT @@version --",
+    "' SELECT table_name FROM information_schema.tables --",
+    "' SELECT column_name FROM information_schema.columns WHERE table_name = 'users' --",
+    "' AND ASCII(substring(@@version,1,1))>51 --",
+    "' UNION SELECT null, null, null, null, group_concat(table_name) FROM information_schema.tables --",
+    "' AND sleep(5) --",
+    "' UNION SELECT null, null, load_file('/etc/passwd') --",
+    "' AND 1=1 -- WAITFOR DELAY '0:0:5' --",
+    "' EXEC xp_cmdshell('dir') --",
+    "' OR IF(1=1, SLEEP(5), 0) --",
+    "' AND IF(1=1, SLEEP(5), 0) --",
+    "' OR 1=1; WAITFOR DELAY '0:0:10' --",
+    "' AND 1=1; WAITFOR DELAY '0:0:10' --",
+    "' AND sleep(10) --",
+    "' AND 1=1 -- -",
+    "' OR 1=1 -- -",
+    "' ORDER BY 1--",
+    "' ORDER BY 2--",
+    "' GROUP BY column_name HAVING 1=1 --",
+    "' SELECT * FROM non_existent_table --",
+    "' UNION SELECT NULL, NULL, NULL --",
+    "' UNION SELECT 1, username, password FROM users --",
+    "' UNION SELECT null, database(), user(), version() --",
+    "' UNION SELECT null, null, load_file('/etc/passwd') --",
+    "' UNION SELECT table_name FROM information_schema.tables --",
+    "' OR 1=1 --",
+    "' OR '' = '' --",
+    "' OR 'a' = 'a' --",
+    "' AND 1=1#",
+    "' AND 'a'='a' --",
+    "' OR '1'='1'; DROP TABLE users --",
+    "'/ (comment)**",
+    "' ; --",
+    "' ; EXEC xp_cmdshell('ping 127.0.0.1') --",
+    "' --",
+    "' / --*",
+    "' SELECT * FROM customers WHERE id = '' OR 1=1 --"
+  ];
+
+  for (var pattern in sqlInjectionPatterns) {
+    if (input.contains(pattern)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+
+void _showInjectionScreen(BuildContext context) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => const InjectionDetectedScreen()),
+  );
 }
 
 Future<void> login(BuildContext context) async {
