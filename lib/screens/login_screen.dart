@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '/screens/home_screen.dart';
+import '/screens/navbar_screen.dart';
 import '../widget/social_button.dart';
 import 'sign_up_screen.dart';
 final _emailController = TextEditingController();
@@ -185,7 +185,7 @@ Future<void> login(BuildContext context) async {
     // Navigate to HomeScreen upon successful login
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) =>  HomeScreen()),
+      MaterialPageRoute(builder: (context) =>  BottomNavBar()),
     );
   } on FirebaseAuthException catch (e) {
     String message;
