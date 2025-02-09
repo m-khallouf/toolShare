@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "436096649025",
+    "project_id": "flutter-toolshare",
+    "storage_bucket": "flutter-toolshare.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:436096649025:android:a09f76eb7dc90f0c65c3c0",
+        "android_client_info": {
+          "package_name": "com.example.tool_share"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "436096649025-jnv0p4k5qnd5r8dqm18p85b3d7ls5h1u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAap51bWOSzVBj-t808awDZhznb_D-iRR4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "436096649025-jnv0p4k5qnd5r8dqm18p85b3d7ls5h1u.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "436096649025-8gta18sj0p41a62q9cmokcsnvc9e46s5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.toolShare"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

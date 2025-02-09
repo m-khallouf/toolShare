@@ -1,14 +1,14 @@
 // Search Screen
 import 'package:flutter/material.dart';
 
-class SettingScreen extends StatelessWidget {
-  const SettingScreen({super.key});
+class MessagesScreen extends StatelessWidget {
+  const MessagesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const Center(
       child: Text(
-        'setting Screen',
+        'add Screen',
         style: TextStyle(fontSize: 24),
       ),
     );

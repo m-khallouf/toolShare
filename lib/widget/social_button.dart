@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class SocialButton extends StatelessWidget {
   final String imagePath;
   final String text;
-  final VoidCallback onPressed;
+  final void Function()? onTap;
 
   static const boxWidth = 330.0;
   static const boxHeight = 50.0;
@@ -15,32 +15,29 @@ class SocialButton extends StatelessWidget {
     Key? key,
     required this.imagePath,
     required this.text,
-    required this.onPressed,
+    required this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: SizedBox(
-        width: boxWidth, height: boxHeight,
-        child: ElevatedButton(
-          onPressed: onPressed,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white38,
-            foregroundColor: Colors.black,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(borderRadius),
-            ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(imagePath, width: imageWidth, height: imageHeight),
-              const SizedBox(width: 10),
-              Text(text),
-            ],
-          ),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.secondary,
+          borderRadius: BorderRadius.circular(8),
+        ),
+
+        padding: const EdgeInsets.all(25),
+        margin: const EdgeInsets.symmetric(horizontal: 25),
+
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(imagePath, width: imageWidth, height: imageHeight),
+            const SizedBox(width: 10),
+            Text(text)
+          ],
         ),
       ),
     );
