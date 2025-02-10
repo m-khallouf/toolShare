@@ -64,7 +64,8 @@ class SignUpScreen extends StatelessWidget {
               // login button
               MyButton(
                   text: "Register",
-                  onTap: register
+                  onTap: register,
+                color: Theme.of(context).colorScheme.secondary,
               ),
 
               const SizedBox(height: 25),

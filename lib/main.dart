@@ -1,10 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:tool_share/screens/profile/profile/not_empty_account.dart';
 import 'package:tool_share/screens/profile/profile/publish_add.dart';
 import 'package:tool_share/services/authentication/auth_gate.dart';
 import 'package:tool_share/services/authentication/login_or_register.dart';
 import 'package:tool_share/firebase_options.dart';
 import 'package:tool_share/screens/login_signup/sign_up_screen.dart';
+import 'package:tool_share/widget/display_current_user_ad_information.dart';
 import 'screens/login_signup/login_screen.dart';
 import 'themes/light_mode.dart';
 import 'themes/dark_mode.dart';
@@ -15,6 +17,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 
 import 'cc.dart';
+import 'widget/display_other_user_ad_information.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,0 +1,35 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
+import '../../widget/draw_current_offer_container.dart';
+
+class GetAllOffers {
+
+  Future<List<Widget>> getAllOffers() async {
+    List<Widget> offerWidgets = [];
+
+    try {
+      // get firebase collection
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('offers')
+          .get(); // Get all offers without filtering by userId
+
+      for (var doc in querySnapshot.docs) {
+        var data = doc.data() as Map<String, dynamic>;
+
+        // draw offers & add to the list
+        offerWidgets.add(DrawCurrentOfferContainer(
+          title: data['title'] ?? 'Kein Titel',
+          availability: (data['availability'] as List<dynamic>).join(", ") ??
+              'Nicht verfügbar',
+          price: "${data['price'] ?? '0.00'} €",
+          category: data['category'] ?? 'Unbekannte Kategorie',
+          userIdInTheAd: '',
+        ));
+      }
+    } catch (e) {
+      print("Fehler beim Abrufen der Angebote: $e");
+    }
+
+    return offerWidgets;
+  }
+}

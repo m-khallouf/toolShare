@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tool_share/services/offers/submit_offer.dart';
 import 'package:tool_share/widget/my_button.dart';
 import 'package:tool_share/widget/my_textFied.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -17,10 +18,10 @@ const List<String> _categories = <String>[
   'Garden',
 ];
 class _PublishAddState extends State<PublishAdd> {
-  final _descriptionController = TextEditingController();
+  final _titleController = TextEditingController();
   final _priceController = TextEditingController();
   final _categoriesController = TextEditingController();
-  int _selectedCategorie = -1;
+  int _selectedCategory = -1;
 
   final Map<String, bool> _availabilitySelected = {
     "hourly": false,
@@ -60,13 +61,13 @@ class _PublishAddState extends State<PublishAdd> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: TextField(
-                  controller: _descriptionController,
+                  controller: _titleController,
                   maxLines: null,
                   expands: true,
                   keyboardType: TextInputType.multiline,
                   decoration: InputDecoration(
                     filled: true,
-                    hintText: 'Description',
+                    hintText: 'title',
                     hintStyle: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                     ),
@@ -161,12 +162,12 @@ class _PublishAddState extends State<PublishAdd> {
                       itemExtent: _kItemExtent,
                       // This sets the initial item.
                       scrollController: FixedExtentScrollController(
-                        initialItem: _selectedCategorie >= 0 ? _selectedCategorie : 0,
+                        initialItem: _selectedCategory >= 0 ? _selectedCategory : 0,
                       ),
                       // This is called when selected item is changed.
                       onSelectedItemChanged: (int selectedItem) {
                         setState(() {
-                          _selectedCategorie = selectedItem;
+                          _selectedCategory = selectedItem;
                         });
                       },
                       children: List<Widget>.generate(_categories.length, (int index) {
@@ -197,7 +198,7 @@ class _PublishAddState extends State<PublishAdd> {
                         style: TextStyle(color: Theme.of(context).colorScheme.primary),
                       ), // Change text color if needed
                       Text(
-                        _selectedCategorie >= 0 ? _categories[_selectedCategorie] : '', // Show selected category or empty
+                        _selectedCategory >= 0 ? _categories[_selectedCategory] : '', // Show selected category or empty
                         style: TextStyle(
                           fontSize: 16.0,
                           color: Theme.of(context).colorScheme.primary, // Change text color if needed
@@ -209,7 +210,19 @@ class _PublishAddState extends State<PublishAdd> {
               ),
 
               const SizedBox(height: 25),
-              MyButton(text: "submit an offer", onTap: submit),
+              MyButton(text: "submit an offer", onTap: SubmitOffer(
+                titleController: _titleController,
+                priceController: _priceController,
+                selectedCategory: _selectedCategory,
+                categories: _categories,
+                availabilitySelected: _availabilitySelected,
+                onUpdate: () {
+                  setState(() {
+                    _selectedCategory = -1;
+                    _availabilitySelected.updateAll((key, value) => false);
+                  });
+                },
+              ).submit, color: Theme.of(context).colorScheme.secondary,),
             ],
           ),
         ),
@@ -261,7 +274,7 @@ class _PublishAddState extends State<PublishAdd> {
     }
   }*/
 
-  void submit() async {
+  /*void submit() async {
     try {
       print("Submit function called");
 
@@ -272,9 +285,6 @@ class _PublishAddState extends State<PublishAdd> {
       // Check if the user is null
       if (user == null) {
         print("No user is logged in!");
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: No user is logged in!')),
-        );
         return;
       }
 
@@ -283,7 +293,7 @@ class _PublishAddState extends State<PublishAdd> {
 
       // Data to be uploaded
       Map<String, dynamic> offerData = {
-        'description': _descriptionController.text,
+        'title': _titleController.text,
         'price': double.tryParse(_priceController.text) ?? 0.0,
         'category': _selectedCategorie >= 0 ? _categories[_selectedCategorie] : '',
         'availability': _availabilitySelected.entries
@@ -293,7 +303,7 @@ class _PublishAddState extends State<PublishAdd> {
         'userId': user.uid, // Ensure this is correct
       };
 
-      print("📤 Uploading data: $offerData");
+      print("Uploading data: $offerData");
 
       // Save data to Firestore
       await offers.add(offerData);
@@ -301,12 +311,8 @@ class _PublishAddState extends State<PublishAdd> {
       // Success message
       print("Offer submitted by user: ${user.uid}");
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Offer submitted successfully!')),
-      );
-
       // Clear fields after successful submission
-      _descriptionController.clear();
+      _titleController.clear();
       _priceController.clear();
       setState(() {
         _selectedCategorie = -1;
@@ -315,15 +321,8 @@ class _PublishAddState extends State<PublishAdd> {
 
     } catch (e) {
       print("Error submitting offer: $e");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error submitting offer: $e')),
-      );
     }
-  }
-
-
-
-
+  }*/
 
   void _showRepeatDaysModal(BuildContext context) {
     showCupertinoModalPopup(

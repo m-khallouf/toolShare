@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tool_share/screens/profile/profile/empty_account_screen.dart';
+import 'package:tool_share/screens/profile/profile/not_empty_account.dart';
+import 'package:tool_share/screens/profile/profile/published_ad_or_not.dart';
 import 'package:tool_share/screens/profile/settings/settings_screen.dart';
 import 'package:tool_share/services/authentication/auth_service.dart';
 import 'package:tool_share/widget/my_button.dart';
@@ -43,7 +45,14 @@ class AccountSettingsScreen extends StatelessWidget {
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SettingsScreen()));
   }
 
-  void account(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => EmptyAccountScreen()));
+  Future<void> account(BuildContext context) async {
+    PublishedAdOrNot publishedAdOrNot = PublishedAdOrNot();
+    bool hasOffers = await publishedAdOrNot.checkUserOffers();
+
+    if (hasOffers) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => NotEmptyAccountScreen()));
+    } else {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => EmptyAccountScreen()));
+    }
   }
 }

@@ -28,7 +28,7 @@ class EmptyAccountScreen extends StatelessWidget {
 
               const SizedBox(height: 25),
 
-              MyButton(text: "publish an add", onTap: () => publishAdd(context)),
+              MyButton(text: "publish an add", onTap: () => publishAdd(context), color: Theme.of(context).colorScheme.secondary,),
             ],
           ),
         ),

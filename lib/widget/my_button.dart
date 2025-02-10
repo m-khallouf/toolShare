@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class MyButton extends StatelessWidget {
   final String text;
   final void Function()? onTap;
+  final Color color;
 
   const MyButton({
     super.key,
     required this.text,
     required this.onTap,
+    required this.color,
   });
 
   @override
@@ -16,7 +18,7 @@ class MyButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.secondary,
+          color: color,
           borderRadius: BorderRadius.circular(8),
         ),
         

@@ -80,7 +80,8 @@ class LoginScreen extends StatelessWidget {
               // login button
               MyButton(
                   text: "Login",
-                  onTap: () => login(context)
+                  onTap: () => login(context),
+                color: Theme.of(context).colorScheme.secondary,
               ),
 
               const SizedBox(height: 25),

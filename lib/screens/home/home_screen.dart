@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tool_share/themes/light_mode.dart';
+
+import '../../services/offers/get_all_ofers.dart';
+import '../../widget/draw_current_offer_container.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -70,30 +74,32 @@ class HomeScreen extends StatelessWidget {
 
                           /// Scrollable Content
                           Container(
-                            width: 330,
+                            width: 330, height: 550,
                             decoration: BoxDecoration(
                               border: Border.all(color: Colors.black, width: 1),
+                              borderRadius: BorderRadius.circular(8),
+                              color: Theme.of(context).colorScheme.secondary,
                             ),
-                            /*
-                            child: Column(
-                              children: List.generate(
-                                20, // Dummy items for scroll effect
-                                    (index) => Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Container(
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Colors.black,
-                                        width: 1,
-                                      ),
-                                      borderRadius: BorderRadius.circular(5),
+
+                            child: FutureBuilder<List<Widget>>(
+                              future: GetAllOffers().getAllOffers(),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                  return Center(child: CircularProgressIndicator());
+                                } else if (snapshot.hasError) {
+                                  return Center(
+                                      child: Text("Fehler beim Laden der Angebote"));
+                                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                                  return Center(child: Text("Keine Angebote verfügbar"));
+                                } else {
+                                  return SingleChildScrollView(
+                                    child: Column(
+                                      children: snapshot.data!,
                                     ),
-                                    child: Center(child: Text("Item ${index + 1}")),
-                                  ),
-                                ),
-                              ),
-                            ),*/
+                                  );
+                                }
+                              },
+                            ),
                           ),
                         ],
                       ),
@@ -112,6 +118,7 @@ class HomeScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.black, width: 1),
                   borderRadius: BorderRadius.circular(8),
+                  color: Theme.of(context).colorScheme.secondary,
                 ),
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: const Row(
@@ -140,4 +147,6 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+
+
 }
