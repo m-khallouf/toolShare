@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import '../../widget/draw_current_offer_container.dart';
+import 'package:tool_share/utilities/export_all_widget.dart';
 
 class GetAllOffers {
 

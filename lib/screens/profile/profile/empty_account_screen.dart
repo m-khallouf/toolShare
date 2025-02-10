@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tool_share/utilities/export_all_widget.dart';
-import 'package:tool_share/screens/profile/profile/publish_add.dart';
+import 'package:tool_share/utilities/export_all_profile.dart';
 
 class EmptyAccountScreen extends StatelessWidget {
   const EmptyAccountScreen({super.key});

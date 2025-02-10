@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tool_share/screens/login_signup/sign_up_screen.dart';
-import 'package:tool_share/screens/login_signup/login_screen.dart';
+import 'package:tool_share/utilities/export_login_sign_up.dart';
 import 'package:tool_share/services/security/sql_injection.dart';
-
-import '../security/sql_injection.dart'; // Import the Injection screen
 
 class LoginOrRegister extends StatefulWidget {
   const LoginOrRegister({super.key});

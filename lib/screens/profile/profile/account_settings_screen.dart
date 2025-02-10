@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tool_share/screens/profile/profile/empty_account_screen.dart';
-import 'package:tool_share/screens/profile/profile/not_empty_account.dart';
-import 'package:tool_share/screens/profile/profile/published_ad_or_not.dart';
-import 'package:tool_share/screens/profile/settings/settings_screen.dart';
-import 'package:tool_share/services/authentication/auth_service.dart';
 
 import 'package:tool_share/utilities/export_all_widget.dart';
+import 'package:tool_share/utilities/export_all_auth.dart';
+import 'package:tool_share/utilities/export_all_profile.dart';
+import 'package:tool_share/utilities/export_all_settings.dart';
 
 
 class AccountSettingsScreen extends StatelessWidget {

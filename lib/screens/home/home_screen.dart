@@ -1,10 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:tool_share/themes/light_mode.dart';
-import 'package:tool_share/widget/my_container.dart';
-
-import '../../services/offers/get_all_ofers.dart';
-import '../../widget/draw_current_offer_container.dart';
+import 'package:tool_share/utilities/export_all_offers.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

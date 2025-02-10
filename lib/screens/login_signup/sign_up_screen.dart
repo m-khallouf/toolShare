@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tool_share/services/authentication/auth_service.dart';
-
 import 'package:tool_share/utilities/export_all_widget.dart';
-
-
+import 'package:tool_share/utilities/export_all_auth.dart';
 
 class SignUpScreen extends StatelessWidget {
   final _emailController = TextEditingController();

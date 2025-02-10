@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tool_share/screens/home/home_screen.dart';
-import 'package:tool_share/screens/chat/messages_screen.dart';
-import 'package:tool_share/screens/profile/profile/account_settings_screen.dart';
-import 'package:tool_share/screens/profile/settings/settings_screen.dart';
+import 'package:tool_share/utilities/export_all_profile.dart';
+import 'package:tool_share/utilities/export_all_chat.dart';
+import 'package:tool_share/utilities/export_all_home.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});

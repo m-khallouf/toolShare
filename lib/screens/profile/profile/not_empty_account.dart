@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tool_share/screens/profile/profile/publish_add.dart';
-
-import '../../../services/offers/get_user_offers.dart';
-
 import 'package:tool_share/utilities/export_all_widget.dart';
-
+import 'package:tool_share/utilities/export_all_profile.dart';
+import 'package:tool_share/utilities/export_all_offers.dart';
 
 class NotEmptyAccountScreen extends StatelessWidget {
   const NotEmptyAccountScreen({super.key});

@@ -1,4 +1,3 @@
-// Search Screen
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatelessWidget {

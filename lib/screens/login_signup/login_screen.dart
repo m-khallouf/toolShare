@@ -1,9 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tool_share/services/authentication/auth_service.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tool_share/utilities/export_all_widget.dart';
-
+import 'package:tool_share/utilities/export_all_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key, required this.onTap});
