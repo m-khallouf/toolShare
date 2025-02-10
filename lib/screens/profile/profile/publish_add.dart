@@ -10,8 +10,9 @@ class PublishAdd extends StatefulWidget {
 }
 const double _kItemExtent = 32.0;
 const List<String> _categories = <String>[
-  'Househole',
-  'Garden',
+  'Household tools',
+  'Garden tools',
+  'General tools',
 ];
 class _PublishAddState extends State<PublishAdd> {
   final _titleController = TextEditingController();
@@ -60,6 +61,9 @@ class _PublishAddState extends State<PublishAdd> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
+      appBar: AppBar(
+        title: const Text(""),
+      ),
       body: SafeArea(
         child: Center(
           child: Column(
@@ -127,38 +131,6 @@ class _PublishAddState extends State<PublishAdd> {
               MyTextField(hintText: "price", obscureText: false, controller: _priceController, errorText: error),
               const SizedBox(height: 25),
 
-              /*GestureDetector(
-                onTap: () => _showCategoryPicker(context),
-                child: Container(
-                  width: 365,
-                  height: 50,
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.secondary,
-                      border: Border.all(
-                          width: 1,
-                          color: Theme.of(context).colorScheme.tertiary),
-                      borderRadius: BorderRadius.circular(5)),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,  // Centering vertically
-                      children: [
-                        Text(
-                          _categoriesController.text.isEmpty ? "category: " : "category: ${_categoriesController.text}",
-                          style: TextStyle(fontSize: 17),
-                        ),
-                        Icon(
-                          CupertinoIcons.chevron_right,
-                          size: 20,
-                          color: Colors.black,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),*/
-
               GestureDetector(
                 onTap: () {
                   // Show the CupertinoPicker when the container is tapped
@@ -202,7 +174,7 @@ class _PublishAddState extends State<PublishAdd> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        'categorie: ',
+                        'category: ',
                         style: TextStyle(color: Theme.of(context).colorScheme.primary),
                       ), // Change text color if needed
                       Text(
@@ -237,100 +209,6 @@ class _PublishAddState extends State<PublishAdd> {
       ),
     );
   }
-
-  /*void submit() async {
-
-    try {
-      // Reference to Firestore
-      CollectionReference offers = FirebaseFirestore.instance.collection('offers');
-
-      // Get the current user
-      User? user = FirebaseAuth.instance.currentUser ;
-
-      // Data to be uploaded
-      Map<String, dynamic> offerData = {
-        'description': _descriptionController.text,
-        'price': double.parse(_priceController.text),
-        'category': _categories[_selectedCategorie],
-        'availability': _availabilitySelected.entries
-            .where((entry) => entry.value)
-            .map((entry) => entry.key)
-            .toList(),
-        'userId': user?.uid,
-      };
-
-      // Save data to Firestore
-      await offers.add(offerData);
-
-      // Show success message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Offer submitted successfully!')),
-      );
-
-      // Clear fields after successful submission
-      _descriptionController.clear();
-      _priceController.clear();
-      setState(() {
-        _selectedCategorie = -1;
-        _availabilitySelected.updateAll((key, value) => false);
-      });
-
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error submitting offer: $e')),
-      );
-    }
-  }*/
-
-  /*void submit() async {
-    try {
-      print("Submit function called");
-
-      // Get the current user
-      User? user = FirebaseAuth.instance.currentUser;
-      print("Current User: ${user?.uid ?? 'No user logged in'}");
-
-      // Check if the user is null
-      if (user == null) {
-        print("No user is logged in!");
-        return;
-      }
-
-      // Reference to Firestore
-      CollectionReference offers = FirebaseFirestore.instance.collection('offers');
-
-      // Data to be uploaded
-      Map<String, dynamic> offerData = {
-        'title': _titleController.text,
-        'price': double.tryParse(_priceController.text) ?? 0.0,
-        'category': _selectedCategorie >= 0 ? _categories[_selectedCategorie] : '',
-        'availability': _availabilitySelected.entries
-            .where((entry) => entry.value)
-            .map((entry) => entry.key)
-            .toList(),
-        'userId': user.uid, // Ensure this is correct
-      };
-
-      print("Uploading data: $offerData");
-
-      // Save data to Firestore
-      await offers.add(offerData);
-
-      // Success message
-      print("Offer submitted by user: ${user.uid}");
-
-      // Clear fields after successful submission
-      _titleController.clear();
-      _priceController.clear();
-      setState(() {
-        _selectedCategorie = -1;
-        _availabilitySelected.updateAll((key, value) => false);
-      });
-
-    } catch (e) {
-      print("Error submitting offer: $e");
-    }
-  }*/
 
   void _showRepeatDaysModal(BuildContext context) {
     showCupertinoModalPopup(

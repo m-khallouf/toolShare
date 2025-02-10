@@ -7,3 +7,4 @@ export '../widget/my_textField.dart';
 export '../widget/password_requirements.dart';
 export '../widget/providerSignInTile.dart';
 export '../widget/social_button.dart';
+export '../widget/category_icon.dart';

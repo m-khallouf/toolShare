@@ -9,7 +9,7 @@ class GetUserOffers {
     List<Widget> offerWidgets = [];
 
     try {
-      // Aktuellen Benutzer abrufen
+      // get current user
       User? user = FirebaseAuth.instance.currentUser;
 
       if (user == null) {
@@ -17,7 +17,7 @@ class GetUserOffers {
         return [];
       }
 
-      // Firestore-Sammlung abfragen
+      // get firestore collection
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection('offers')
           .where('userId', isEqualTo: user.uid)

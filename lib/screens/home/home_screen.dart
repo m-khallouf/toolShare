@@ -1,8 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:tool_share/utilities/export_all_offers.dart';
+import 'package:tool_share/utilities/export_all_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  String? selectedCategory;
+  late Future<List<Widget>> offersFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    offersFuture = GetAllOffers().getAllOffers(); // Load all offers initially
+  }
+
+  // Function to filter offers by category
+  void filterOffers(String category) {
+    setState(() {
+      selectedCategory = category;
+      offersFuture = GetSelectedCategory().getSelectedCategory(category);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,16 +36,14 @@ class HomeScreen extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            /// Scrollable Content
             Positioned.fill(
               child: Column(
                 children: [
-                  const SizedBox(height: 130), // Space for search box
+                  const SizedBox(height: 130),
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          /// Categories Section
                           Container(
                             width: double.infinity,
                             height: 30,
@@ -39,53 +62,43 @@ class HomeScreen extends StatelessWidget {
                             height: 50,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: List.generate(
-                                4,
-                                    (index) => Padding(
-                                  padding: const EdgeInsets.only(right: 10),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(25),
-                                      border: Border.all(
-                                        color: Colors.black,
-                                        width: 1,
-                                      ),
-                                    ),
-                                    child: Image.asset(
-                                      'images/tools.png',
-                                      width: 25,
-                                      height: 25,
-                                    ),
-                                  ),
+                              children: [
+                                GestureDetector(
+                                  onTap: () => filterOffers("General tools"),
+                                  child: CategoryIcon(assetPath: 'images/tools.png'),
                                 ),
-                              ),
+                                GestureDetector(
+                                  onTap: () => filterOffers("Household tools"),
+                                  child: CategoryIcon(assetPath: '../images/houseIcon.png'),
+                                ),
+                                GestureDetector(
+                                  onTap: () => filterOffers("Garden tools"),
+                                  child: CategoryIcon(assetPath: '../images/gardenIcon.png'),
+                                ),
+                              ],
                             ),
                           ),
-
                           const SizedBox(height: 15),
 
-                          /// Scrollable Content
+                          /// Display Offers
                           Container(
-                            width: double.infinity, height: 550,
+                            width: double.infinity,
+                            height: 550,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
                               color: Theme.of(context).colorScheme.secondary,
                             ),
-
                             padding: const EdgeInsets.all(5),
                             margin: const EdgeInsets.symmetric(horizontal: 25),
-
                             child: FutureBuilder<List<Widget>>(
-                              future: GetAllOffers().getAllOffers(),
+                              future: offersFuture,
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState == ConnectionState.waiting) {
-                                  return Center(child: CircularProgressIndicator());
+                                  return const Center(child: CircularProgressIndicator());
                                 } else if (snapshot.hasError) {
-                                  return Center(
-                                      child: Text("Fehler beim Laden der Angebote"));
+                                  return const Center(child: Text("Error loading offers"));
                                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                                  return Center(child: Text("Keine Angebote verfügbar"));
+                                  return const Center(child: Text("No offers available"));
                                 } else {
                                   return SingleChildScrollView(
                                     child: Column(
@@ -104,7 +117,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
 
-            /// Search Box (Floating Above)
+            /// Search Box
             Positioned(
               top: 70,
               left: 27,
@@ -141,6 +154,4 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-
-
 }
