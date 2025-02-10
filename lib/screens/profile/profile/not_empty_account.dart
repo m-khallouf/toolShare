@@ -1,12 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tool_share/widget/draw_current_offer_container.dart';
-import 'package:tool_share/widget/my_button.dart';
 import 'package:tool_share/screens/profile/profile/publish_add.dart';
-import 'package:tool_share/widget/my_container.dart';
 
 import '../../../services/offers/get_user_offers.dart';
+
+import 'package:tool_share/utilities/export_all_widget.dart';
+
 
 class NotEmptyAccountScreen extends StatelessWidget {
   const NotEmptyAccountScreen({super.key});
@@ -15,6 +13,9 @@ class NotEmptyAccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
+      appBar: AppBar(
+        title: const Text(""),
+      ),
       body: SafeArea(
         child: Center(
           child: Column(
@@ -24,25 +25,10 @@ class NotEmptyAccountScreen extends StatelessWidget {
               MyContainer(height: 200, text: "user information"),
               const SizedBox(height: 25),
 
-              // Current offers
-              /*Container(
-                width: 360,
-                height: 400, // Fixed height for the container
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.secondary,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: SingleChildScrollView( // Make the content scrollable
-                  child: Column(
-                    children: [
-                      Future<void>getCurrentOffers();
-                    ],
-                  ),
-                ),*/
-
+              // current Offers
               Container(
                 width: 360,
-                height: 400, // Feste Höhe für den Container
+                height: 400,
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.secondary,
                   borderRadius: BorderRadius.circular(8),
@@ -67,7 +53,6 @@ class NotEmptyAccountScreen extends StatelessWidget {
                   },
                 ),
               ),
-
               const SizedBox(height: 25),
 
               // Create new ad
@@ -89,25 +74,4 @@ class NotEmptyAccountScreen extends StatelessWidget {
       MaterialPageRoute(builder: (context) => PublishAdd()),
     );
   }
-
-  /*Future<List<Widget>>getCurrentOffers() async{
-    try{
-      // Get the current user
-      User? user = FirebaseAuth.instance.currentUser;
-
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('offers')
-          .where('userId', isEqualTo: user?.uid)
-          .get();
-
-
-
-      for () {
-        DrawCurrentOfferContainer(title: '', availability: '', price: '', category: '', )
-      }
-    } catch (e) {
-      print("error");
-    }
-  }*/
-
 }

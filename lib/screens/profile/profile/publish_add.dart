@@ -2,10 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tool_share/screens/profile/profile/not_empty_account.dart';
 import 'package:tool_share/services/offers/submit_offer.dart';
-import 'package:tool_share/widget/my_button.dart';
-import 'package:tool_share/widget/my_textFied.dart';
+
 import 'package:firebase_database/firebase_database.dart';
+
+import 'package:tool_share/utilities/export_all_widget.dart';
+
 
 
 class PublishAdd extends StatefulWidget {
@@ -30,6 +33,36 @@ class _PublishAddState extends State<PublishAdd> {
     "monthly": false,
   };
 
+  String? error;
+  String? errorMessage;
+
+  void _validateAndSubmit() {
+    setState(() {
+      // Check if any required field is empty
+      if (_titleController.text.isEmpty ||
+          _priceController.text.isEmpty ||
+          _selectedCategory == -1 || // Ensure category is selected
+          !_availabilitySelected.containsValue(true)) { // Ensure at least one availability is selected
+        errorMessage = "Oops, seems like there is something messing!";
+      } else {
+        errorMessage = null; // Clear error message if everything is valid
+        SubmitOffer(
+          titleController: _titleController,
+          priceController: _priceController,
+          selectedCategory: _selectedCategory,
+          categories: _categories,
+          availabilitySelected: _availabilitySelected,
+          onUpdate: () {
+            setState(() {
+              _selectedCategory = -1;
+              _availabilitySelected.updateAll((key, value) => false);
+            });
+          },
+        ).submit(context);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,55 +72,35 @@ class _PublishAddState extends State<PublishAdd> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // image
               Container(
-                width: 360,
+                width: double.infinity,
                 height: 230,
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.secondary,
-                  border: Border.all(
-                      width: 1, color: Theme.of(context).colorScheme.tertiary),
                   borderRadius: BorderRadius.circular(8),
                 ),
+                padding: const EdgeInsets.all(5),
+                margin: const EdgeInsets.symmetric(horizontal: 25),
                 child: Icon(Icons.image, size: 50, color: Colors.black),
               ),
               const SizedBox(height: 25),
-              Container(
-                width: 360,
-                height: 120,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.secondary,
-                  border: Border.all(
-                      width: 1, color: Theme.of(context).colorScheme.tertiary),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: TextField(
-                  controller: _titleController,
-                  maxLines: null,
-                  expands: true,
-                  keyboardType: TextInputType.multiline,
-                  decoration: InputDecoration(
-                    filled: true,
-                    hintText: 'title',
-                    hintStyle: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    border: InputBorder.none,
-                    fillColor: Theme.of(context).colorScheme.secondary,
-                  ),
-                ),
-              ),
+
+              // title
+              MyTextField(hintText: "title", obscureText: false, controller: _titleController, errorText: error,),
               const SizedBox(height: 25),
+
+              // availability
               GestureDetector(
                 onTap: () => _showRepeatDaysModal(context),
                 child: Container(
-                  width: 365,
-                  height: 50,
+                  width: double.infinity,
+                  height: 55,
                   decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.secondary,
-                      border: Border.all(
-                          width: 1,
-                          color: Theme.of(context).colorScheme.tertiary),
                       borderRadius: BorderRadius.circular(5)),
+                  padding: const EdgeInsets.all(5),
+                  margin: const EdgeInsets.symmetric(horizontal: 25),
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10),
                     child: Column(
@@ -116,7 +129,9 @@ class _PublishAddState extends State<PublishAdd> {
                 ),
               ),
               const SizedBox(height: 25),
-              MyTextField(hintText: "price", obscureText: false, controller: _priceController),
+
+              // price
+              MyTextField(hintText: "price", obscureText: false, controller: _priceController, errorText: error),
               const SizedBox(height: 25),
 
               /*GestureDetector(
@@ -184,12 +199,12 @@ class _PublishAddState extends State<PublishAdd> {
                 child: Container(
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.secondary,
-                    border: Border.all(color: Colors.white, width: 1),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  width: 360,
+                  width: double.infinity,
                   height: 60,
-                  padding: const EdgeInsets.all(16.0), // Add some padding
+                  padding: const EdgeInsets.all(5),
+                  margin: const EdgeInsets.symmetric(horizontal: 25),// Add some padding
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
@@ -210,19 +225,19 @@ class _PublishAddState extends State<PublishAdd> {
               ),
 
               const SizedBox(height: 25),
-              MyButton(text: "submit an offer", onTap: SubmitOffer(
-                titleController: _titleController,
-                priceController: _priceController,
-                selectedCategory: _selectedCategory,
-                categories: _categories,
-                availabilitySelected: _availabilitySelected,
-                onUpdate: () {
-                  setState(() {
-                    _selectedCategory = -1;
-                    _availabilitySelected.updateAll((key, value) => false);
-                  });
-                },
-              ).submit, color: Theme.of(context).colorScheme.secondary,),
+
+              if (errorMessage != null)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Text(
+                    errorMessage!,
+                    style: TextStyle(color: Colors.red, fontSize: 16),
+                  ),
+                ),
+
+              const SizedBox(height: 25),
+
+              MyButton(text: "submit an offer", onTap: _validateAndSubmit, color: Theme.of(context).colorScheme.secondary,),
             ],
           ),
         ),

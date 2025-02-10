@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tool_share/themes/light_mode.dart';
+import 'package:tool_share/widget/my_container.dart';
 
 import '../../services/offers/get_all_ofers.dart';
 import '../../widget/draw_current_offer_container.dart';
@@ -19,30 +20,27 @@ class HomeScreen extends StatelessWidget {
             Positioned.fill(
               child: Column(
                 children: [
-                  const SizedBox(height: 150), // Space for search box
+                  const SizedBox(height: 130), // Space for search box
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
                           /// Categories Section
                           Container(
-                            width: 330,
+                            width: double.infinity,
                             height: 30,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.black, // Border color
-                              ),
-                            ),
+                            padding: const EdgeInsets.all(5),
+                            margin: const EdgeInsets.symmetric(horizontal: 25),
                             child: const Text(
                               'Explore popular categories',
-                              textAlign: TextAlign.left,
+                              textAlign: TextAlign.center,
                             ),
                           ),
                           const SizedBox(height: 5),
 
                           /// Icons Row
                           SizedBox(
-                            width: 330,
+                            width: double.infinity,
                             height: 50,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -70,16 +68,18 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
 
-                          const SizedBox(height: 5),
+                          const SizedBox(height: 15),
 
                           /// Scrollable Content
                           Container(
-                            width: 330, height: 550,
+                            width: double.infinity, height: 550,
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black, width: 1),
                               borderRadius: BorderRadius.circular(8),
                               color: Theme.of(context).colorScheme.secondary,
                             ),
+
+                            padding: const EdgeInsets.all(5),
+                            margin: const EdgeInsets.symmetric(horizontal: 25),
 
                             child: FutureBuilder<List<Widget>>(
                               future: GetAllOffers().getAllOffers(),
@@ -112,11 +112,10 @@ class HomeScreen extends StatelessWidget {
             /// Search Box (Floating Above)
             Positioned(
               top: 70,
-              left: 40,
-              right: 40,
+              left: 27,
+              right: 27,
               child: Container(
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black, width: 1),
                   borderRadius: BorderRadius.circular(8),
                   color: Theme.of(context).colorScheme.secondary,
                 ),

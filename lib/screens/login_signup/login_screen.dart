@@ -1,93 +1,150 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tool_share/services/authentication/auth_service.dart';
-import 'package:tool_share/widget/my_button.dart';
-import 'package:tool_share/widget/my_textFied.dart';
-import 'package:tool_share/widget/providerSignInTile.dart';
-import '/screens/navbar_screen.dart';
-import '../../widget/social_button.dart';
-import 'sign_up_screen.dart';
-import 'package:tool_share/services/security/sql_injection.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+
+import 'package:tool_share/utilities/export_all_widget.dart';
 
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key, required this.onTap});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key, required this.onTap});
 
-  // Controller
+  final void Function()? onTap;
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  // Controllers
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  String? emailError;
+  String? passwordError;
+  String? generalError;
+
+  String? errorMessage;
+
+  void _validateAndLogin() async {
+    setState(() {
+      errorMessage = null;
+      emailError = null;
+      passwordError = null;
+    });
+
+    if (_emailController.text.isEmpty) {
+      setState(() {
+        emailError = "Please enter your email.";
+      });
+      return;
+    }
+
+    if (_passwordController.text.isEmpty) {
+      setState(() {
+        passwordError = "Please enter your password.";
+      });
+      return;
+    }
+
+    try {
+      await AuthService().signInWithEmailAndPassword(
+        _emailController.text.trim(),
+        _passwordController.text.trim(),
+      );
+    } on FirebaseAuthException catch (error) {
+      setState(() {
+        errorMessage = "Login failed: ${error.message}";
+      });
+    } catch (e) {
+      setState(() {
+        errorMessage = "Oops, check your login data one more time.";
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-
       body: SafeArea(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // welcome message
+              // welcome text
               Text(
-                "welcome back",
+                "Welcome back",
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.primary,
                   fontSize: 25,
                 ),
               ),
-
               const SizedBox(height: 25),
 
-              // email textfield
+              // email
               MyTextField(
-                hintText: "email",
+                hintText: "Email",
                 obscureText: false,
                 controller: _emailController,
+                errorText: emailError,
               ),
-
               const SizedBox(height: 25),
 
-              // password textfield
+              // password
               MyTextField(
-                hintText: "password",
+                hintText: "Password",
                 obscureText: true,
                 controller: _passwordController,
+                errorText: passwordError,
               ),
-
               const SizedBox(height: 25),
 
+              // error message
+              if (generalError != null)
+                Text(
+                  generalError!,
+                  style: const TextStyle(color: Colors.red),
+                ),
+              const SizedBox(height: 10),
+              if (errorMessage != null)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Text(
+                    errorMessage!,
+                    style: TextStyle(color: Colors.red, fontSize: 16),
+                  ),
+                ),
+              const SizedBox(height: 25),
+
+              // forgot password
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 27.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      "forgot password?",
+                      "Forgot password?",
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.primary,
                         fontSize: 16,
                       ),
-
                     ),
                   ],
                 ),
               ),
-
               const SizedBox(height: 25),
 
-              // login button
+              // login
               MyButton(
-                  text: "Login",
-                  onTap: () => login(context),
+                text: "Login",
+                onTap: () => _validateAndLogin(),
                 color: Theme.of(context).colorScheme.secondary,
               ),
-
               const SizedBox(height: 25),
+
+              // sign up
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 27.0),
-
                 child: Row(
                   children: [
                     Expanded(
@@ -106,73 +163,47 @@ class LoginScreen extends StatelessWidget {
                   ],
                 ),
               ),
-
               const SizedBox(height: 50),
-               Row(
+
+              // sign up with provider
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // apple
                   ProviderSignInTile(
                     onTap: () {},
-                      imagePath: "../images/appleIcon.png"
+                    imagePath: "../images/appleIcon.png",
                   ),
-
                   const SizedBox(width: 20),
-
-                  // google
                   ProviderSignInTile(
                     onTap: () => AuthService().signInWithGoogle(),
-                      imagePath: "../images/googleIcon.png"
+                    imagePath: "../images/googleIcon.png",
                   ),
                 ],
               ),
-
               const SizedBox(height: 25),
-              // register now
+
+              // create an account
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                      "Don\'t have an account? ",
-                      style: TextStyle(color: Theme.of(context).colorScheme.primary
-                      )
+                    "Don't have an account? ",
+                    style:
+                        TextStyle(color: Theme.of(context).colorScheme.primary),
                   ),
-
                   GestureDetector(
-                    onTap: onTap,
+                    onTap: widget.onTap,
                     child: const Text(
-                        "Sign Up",
-                        style: TextStyle(color: Colors.blue)
+                      "Sign Up",
+                      style: TextStyle(color: Colors.blue),
                     ),
                   ),
                 ],
               ),
-
             ],
           ),
         ),
       ),
     );
-
   }
-
-  void login(BuildContext context) async{
-    // auth service
-    final authService = AuthService();
-
-    // login
-    try {
-      await authService.signInWithEmailAndPassword(
-          _emailController.text,
-          _passwordController.text
-      );
-    } catch (errors) {
-      showDialog(
-          context: context,
-          builder: (context) => AlertDialog(title: Text(errors.toString())));
-    }
-
-  }
-
-  final void Function()? onTap;
 }

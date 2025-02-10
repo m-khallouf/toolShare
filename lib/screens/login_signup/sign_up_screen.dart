@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:tool_share/services/authentication/auth_service.dart';
-import '../../widget/my_button.dart';
-import '../../widget/my_textFied.dart';
-import '../../widget/social_button.dart';
-import 'create_an_account.dart';
+
+import 'package:tool_share/utilities/export_all_widget.dart';
+
 
 
 class SignUpScreen extends StatelessWidget {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  String? error;
 
   SignUpScreen({super.key, required this.onTap});
 
@@ -43,20 +43,22 @@ class SignUpScreen extends StatelessWidget {
 
               const SizedBox(height: 25),
 
-              // email textfield
+              // email text-field
               MyTextField(
                 hintText: "email",
                 obscureText: false,
                 controller: _emailController,
+                errorText: error,
               ),
 
               const SizedBox(height: 25),
 
-              // password textfield
+              // password text-field
               MyTextField(
                 hintText: "password",
                 obscureText: true,
                 controller: _passwordController,
+                errorText: error,
               ),
 
               const SizedBox(height: 25),
@@ -100,9 +102,9 @@ class SignUpScreen extends StatelessWidget {
 
   void register() {
     // get auth service
-    final _auth = AuthService();
+    final auth = AuthService();
 
-    _auth.signUpWithEmailAndPassword(_emailController.text, _passwordController.text);
+    auth.signUpWithEmailAndPassword(_emailController.text, _passwordController.text);
 
   }
 

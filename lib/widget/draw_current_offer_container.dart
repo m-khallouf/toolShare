@@ -1,8 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'display_current_user_ad_information.dart';
-import 'display_other_user_ad_information.dart';
+import 'package:tool_share/utilities/export_all_widget.dart';
 
 class DrawCurrentOfferContainer extends StatelessWidget {
   final String title;
@@ -23,9 +22,9 @@ class DrawCurrentOfferContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () => onTap(context),
       child: Container(
-        width: 340,
+        width: double.infinity,
         height: 200,
         margin: EdgeInsets.symmetric(vertical: 20),
         decoration: BoxDecoration(
@@ -68,10 +67,24 @@ class DrawCurrentOfferContainer extends StatelessWidget {
     );
   }
 
-  void onTap() {
+  void onTap(BuildContext context) {
     // Get the current user
     User? currentUser = FirebaseAuth.instance.currentUser;
-    
-    currentUser == userIdInTheAd ? DisplayCurrentUserAdInformation : DisplayOtherUserAdInformation;
+
+    // Check if the current user is the same as the user in the ad
+    if (currentUser?.uid == userIdInTheAd) {
+      // Navigate to DisplayCurrentUserAdInformation screen
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => DisplayCurrentUserAdInformation()),
+      );
+    } else {
+      // Navigate to DisplayOtherUserAdInformation screen
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => DisplayOtherUserAdInformation()),
+      );
+    }
   }
+
 }

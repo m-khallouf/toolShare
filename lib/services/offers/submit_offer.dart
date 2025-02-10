@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:tool_share/screens/profile/profile/not_empty_account.dart';
 import '../../widget/draw_current_offer_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -24,7 +25,7 @@ class SubmitOffer {
   });
 
 
-  void submit() async {
+  void submit(BuildContext context) async {
     try {
       // Get the current user
       User? user = FirebaseAuth.instance.currentUser;
@@ -60,6 +61,11 @@ class SubmitOffer {
 
       // Call the onUpdate callback to trigger setState
       onUpdate();
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => NotEmptyAccountScreen()),
+      );
 
     } catch (e) {
       print("Error submitting offer: $e");

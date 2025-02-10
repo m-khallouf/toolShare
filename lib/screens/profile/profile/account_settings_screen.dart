@@ -4,11 +4,31 @@ import 'package:tool_share/screens/profile/profile/not_empty_account.dart';
 import 'package:tool_share/screens/profile/profile/published_ad_or_not.dart';
 import 'package:tool_share/screens/profile/settings/settings_screen.dart';
 import 'package:tool_share/services/authentication/auth_service.dart';
-import 'package:tool_share/widget/my_button.dart';
-import 'package:tool_share/widget/social_button.dart';
+
+import 'package:tool_share/utilities/export_all_widget.dart';
+
 
 class AccountSettingsScreen extends StatelessWidget {
   const AccountSettingsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Navigator(
+      onGenerateRoute: (settings) {
+        Widget page = const AccountSettingsHome(); // Default profile screen
+
+        if (settings.name == '/settings') {
+          page = const SettingsScreen();
+        }
+
+        return MaterialPageRoute(builder: (_) => page);
+      },
+    );
+  }
+}
+
+class AccountSettingsHome extends StatelessWidget {
+  const AccountSettingsHome({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +40,8 @@ class AccountSettingsScreen extends StatelessWidget {
             children: [
               const SizedBox(height: 300),
               SocialButton(imagePath: '../images/profileIcon.png', text: "Profile", onTap: () => account(context)),
-
               const SizedBox(height: 20),
-              SocialButton(imagePath: '../images/settingsIcon.png', text: "Settings", onTap: () => settings(context)),
-
+              SocialButton(imagePath: '../images/settingsIcon.png', text: "Settings", onTap: () => Navigator.of(context).pushNamed('/settings')),
               const SizedBox(height: 20),
               SocialButton(imagePath: '../images/logoutIcon.png', text: "Log out", onTap: logout),
             ],
@@ -33,16 +51,9 @@ class AccountSettingsScreen extends StatelessWidget {
     );
   }
 
-  void login() {}
   void logout() {
-    // get auth service
     final _auth = AuthService();
     _auth.signOut();
-  }
-
-
-  void settings(BuildContext context) {
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SettingsScreen()));
   }
 
   Future<void> account(BuildContext context) async {

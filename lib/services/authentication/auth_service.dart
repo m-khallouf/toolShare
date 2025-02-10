@@ -59,4 +59,9 @@ class AuthService {
   Future<void> signOut() async {
     return await _auth.signOut();
   }
+
+  Future<String?> getUserEmail() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    return user?.email;  // Returns the email of the current user, or null if not logged in
+  }
 }

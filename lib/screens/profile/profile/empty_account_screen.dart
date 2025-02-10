@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tool_share/widget/my_button.dart';
+import 'package:tool_share/utilities/export_all_widget.dart';
 import 'package:tool_share/screens/profile/profile/publish_add.dart';
 
 class EmptyAccountScreen extends StatelessWidget {
@@ -9,6 +9,9 @@ class EmptyAccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
+      appBar: AppBar(
+        title: const Text(""),
+      ),
       body: SafeArea(
         child: Center(
           child: Column(
