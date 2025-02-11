@@ -24,22 +24,23 @@ class NotEmptyAccountScreen extends StatelessWidget {
 
               // current Offers
               Container(
-                width: 360,
+                width: double.infinity,
                 height: 400,
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.secondary,
                   borderRadius: BorderRadius.circular(8),
                 ),
+                padding: const EdgeInsets.all(5),
+                margin: const EdgeInsets.symmetric(horizontal: 25),
                 child: FutureBuilder<List<Widget>>(
-                  future: GetUserOffers().getCurrentOffers(),
+                  future: OfferService().getOffers(onlyCurrentUser: true), // Holt nur die aktuellen User-Angebote
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     } else if (snapshot.hasError) {
-                      return Center(
-                          child: Text("Fehler beim Laden der Angebote"));
+                      return const Center(child: Text("Fehler beim Laden der Angebote"));
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return Center(child: Text("Keine Angebote verfügbar"));
+                      return const Center(child: Text("Keine Angebote verfügbar"));
                     } else {
                       return SingleChildScrollView(
                         child: Column(
@@ -50,6 +51,7 @@ class NotEmptyAccountScreen extends StatelessWidget {
                   },
                 ),
               ),
+
               const SizedBox(height: 25),
 
               // Create new ad

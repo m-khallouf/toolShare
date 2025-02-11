@@ -1,21 +1,28 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tool_share/widget/my_button.dart';
+import 'package:tool_share/screens/home/home_screen.dart';
+import 'package:tool_share/utilities/export_all_widget.dart';
+import 'package:tool_share/utilities/export_all_chat.dart';
+
+import '../screens/navbar_screen.dart';
 
 class DisplayOtherUserAdInformation extends StatelessWidget {
-  /*
-  final String description;
-  final Map<String, dynamic> availability;
+  final String title;
+  final String availability;
   final String category;
-  final int price;
-  final String userId;*/
+  final String price;
+  final String userIdInTheAd;
 
   const DisplayOtherUserAdInformation({
-    super.key,/*
-    required this.description,
+    super.key,
+    required this.title,
     required this.availability,
     required this.category,
     required this.price,
-    required this.userId,*/
+    required this.userIdInTheAd,
   });
 
   @override
@@ -30,9 +37,9 @@ class DisplayOtherUserAdInformation extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // image
+              // Image Placeholder
               Container(
-                width: 360,
+                width: double.infinity,
                 height: 230,
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.secondary,
@@ -40,69 +47,34 @@ class DisplayOtherUserAdInformation extends StatelessWidget {
                       width: 1, color: Theme.of(context).colorScheme.tertiary),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Icon(Icons.image, size: 50, color: Colors.black),
+                padding: const EdgeInsets.all(5),
+                margin: const EdgeInsets.symmetric(horizontal: 25),
+                child: const Icon(Icons.image, size: 50, color: Colors.black),
               ),
-
               const SizedBox(height: 25),
 
-              // description
-              Container(
-                width: 360, height: 50,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.secondary,
-                  border: Border.all(
-                      width: 1, color: Theme.of(context).colorScheme.tertiary),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text("get description"),
-              ),
-
+              // title
+              MyContainer(height: 50, text: title),
               const SizedBox(height: 25),
 
-              // availability
-              Container(
-                width: 360, height: 50,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.secondary,
-                  border: Border.all(
-                      width: 1, color: Theme.of(context).colorScheme.tertiary),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text("get availability"),
-              ),
-
+              // Availability
+              MyContainer(height: 50, text: availability),
               const SizedBox(height: 25),
 
               // price
-              Container(
-                width: 360, height: 50,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.secondary,
-                  border: Border.all(
-                      width: 1, color: Theme.of(context).colorScheme.tertiary),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text("get price"),
-              ),
-
+              MyContainer(height: 50, text: price),
               const SizedBox(height: 25),
 
               // category
-              Container(
-                width: 360, height: 50,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.secondary,
-                  border: Border.all(
-                      width: 1, color: Theme.of(context).colorScheme.tertiary),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text("get category"),
-              ),
-
+              MyContainer(height: 50, text: category),
               const SizedBox(height: 25),
-              
+
               // send message button
-              MyButton(text: "send message", onTap: openChatRoomWithUser, color: Theme.of(context).colorScheme.secondary,)
+              MyButton(
+                text: "send message",
+                onTap: () => showSuccessDialog(context),
+                color: Theme.of(context).colorScheme.secondary,
+              )
             ],
           ),
         ),
@@ -110,6 +82,42 @@ class DisplayOtherUserAdInformation extends StatelessWidget {
     );
   }
 
-  void openChatRoomWithUser() {
+  void onTap(BuildContext context) {
+    print("click");
+    print(userIdInTheAd);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            OpenChatRoom(adTitle: title, receiverId: userIdInTheAd),
+      ),
+    );
   }
+
+
+
+  void showSuccessDialog(BuildContext context) {
+    showCupertinoDialog(context: context,builder: (BuildContext context) {
+        return CupertinoAlertDialog(
+          title: Text('New chatroom was created'),
+          content: Text('Check the messages to be able to contact the user!'),
+          actions: [
+            CupertinoDialogAction(
+              child: Text('OK'),
+              onPressed: () {
+                print("OK pressed"); // Debugging statement
+                Navigator.of(context).pop(); // Close the dialog
+                // Navigate to MessagesScreen or update the BottomNavBar here
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => BottomNavBar()),
+                );
+              },
+            ),
+          ],
+        );
+      });
+
+  }
+
 }

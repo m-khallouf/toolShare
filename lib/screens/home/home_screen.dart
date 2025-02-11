@@ -15,19 +15,24 @@ class _HomeScreenState extends State<HomeScreen> {
   String? selectedCategory;
   late Future<List<Widget>> offersFuture;
 
+  // offer service
+  final OfferService _offerService = OfferService();
+
   @override
   void initState() {
     super.initState();
-    offersFuture = GetAllOffers().getAllOffers(); // Load all offers initially
+    offersFuture = _offerService.getOffers(); // Load all offers initially
   }
 
   // Function to filter offers by category
   void filterOffers(String category) {
     setState(() {
       selectedCategory = category;
-      offersFuture = GetSelectedCategory().getSelectedCategory(category);
+      offersFuture = _offerService.getOffers(category: "Household tools");
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -64,17 +69,35 @@ class _HomeScreenState extends State<HomeScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 GestureDetector(
-                                  onTap: () => filterOffers("General tools"),
+                                  onTap: () async {
+                                    List<Widget> offers = await OfferService().getOffers(category: "General tools");
+                                    setState(() {
+                                      offersFuture = Future.value(offers);
+                                    });
+                                  },
                                   child: CategoryIcon(assetPath: 'images/tools.png'),
                                 ),
+
                                 GestureDetector(
-                                  onTap: () => filterOffers("Household tools"),
-                                  child: CategoryIcon(assetPath: '../images/houseIcon.png'),
+                                  onTap: () async {
+                                    List<Widget> offers = await OfferService().getOffers(category: "Household tools");
+                                    setState(() {
+                                      offersFuture = Future.value(offers);
+                                    });
+                                  },
+                                  child: CategoryIcon(assetPath: 'images/houseIcon.png'),
                                 ),
+
                                 GestureDetector(
-                                  onTap: () => filterOffers("Garden tools"),
-                                  child: CategoryIcon(assetPath: '../images/gardenIcon.png'),
+                                  onTap: () async {
+                                    List<Widget> offers = await OfferService().getOffers(category: "Garden tools");
+                                    setState(() {
+                                      offersFuture = Future.value(offers);
+                                    });
+                                  },
+                                  child: CategoryIcon(assetPath: 'images/gardenIcon.png'),
                                 ),
+
                               ],
                             ),
                           ),

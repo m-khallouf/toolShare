@@ -55,6 +55,15 @@ class AuthService {
     }
   }
 
+  // email verification
+  Future<void> sendEmailVerificationLin() async {
+    try {
+      await _auth.currentUser?.sendEmailVerification();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   // sing out
   Future<void> signOut() async {
     return await _auth.signOut();
@@ -63,5 +72,9 @@ class AuthService {
   Future<String?> getUserEmail() async {
     User? user = FirebaseAuth.instance.currentUser;
     return user?.email;  // Returns the email of the current user, or null if not logged in
+  }
+
+  User? getCurrentUser() {
+    return _auth.currentUser;
   }
 }

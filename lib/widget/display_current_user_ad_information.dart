@@ -1,23 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:tool_share/utilities/export_all_widget.dart';
 
 class DisplayCurrentUserAdInformation extends StatelessWidget {
-  /*
-  final String description;
-  final Map<String, dynamic> availability;
+  final String title;
+  final String availability;
   final String category;
-  final int price;
-  final String userId;*/
+  final String price;
+  final String userIdInTheAd;
 
   const DisplayCurrentUserAdInformation({
-    super.key, /*
-    required this.description,
+    super.key,
+    required this.title,
     required this.availability,
     required this.category,
     required this.price,
-    required this.userId,*/
+    required this.userIdInTheAd,
   });
 
   @override
@@ -25,71 +26,59 @@ class DisplayCurrentUserAdInformation extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        title: const Text(""),
+        title: const Text("Ad Information"),
       ),
       body: SafeArea(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // image
+              // Image Placeholder
               Container(
                 width: double.infinity,
                 height: 230,
                 decoration: BoxDecoration(
-                  color: Theme
-                      .of(context)
-                      .colorScheme
-                      .secondary,
+                  color: Theme.of(context).colorScheme.secondary,
                   border: Border.all(
-                      width: 1, color: Theme
-                      .of(context)
-                      .colorScheme
-                      .tertiary),
+                      width: 1, color: Theme.of(context).colorScheme.tertiary),
                   borderRadius: BorderRadius.circular(8),
                 ),
-
                 padding: const EdgeInsets.all(5),
                 margin: const EdgeInsets.symmetric(horizontal: 25),
-
-                child: Icon(Icons.image, size: 50, color: Colors.black),
+                child: const Icon(Icons.image, size: 50, color: Colors.black),
               ),
-
               const SizedBox(height: 25),
 
-              // description
-              MyContainer(height: 50, text: "get description"),
-
+              // title
+              MyContainer(height: 50, text: title),
               const SizedBox(height: 25),
 
-              // availability
-              MyContainer(height: 50, text: "get availability"),
-
+              // Availability
+              MyContainer(height: 50, text: availability),
               const SizedBox(height: 25),
 
-              // price
-              MyContainer(height: 50, text: "getPrice"),
-
+              // Price
+              MyContainer(height: 50, text: price),
               const SizedBox(height: 25),
 
-              // category
-              MyContainer(height: 50, text: "get category"),
-
+              // Category
+              MyContainer(height: 50, text: category),
               const SizedBox(height: 25),
 
-              // send message button
-              MyButton(text: "edit", onTap: openChatRoomWithUser, color: Theme
-                  .of(context)
-                  .colorScheme
-                  .secondary,),
-
+              // Edit Ad Button
+              MyButton(
+                text: "Edit",
+                onTap: () => editAd(),
+                color: Theme.of(context).colorScheme.secondary,
+              ),
               const SizedBox(height: 25),
 
-              // delete ad
-              MyButton(text: "delete",
+              // Delete Ad Button
+              MyButton(
+                text: "Delete",
                 onTap: () => _showAlertDialog(context),
-                color: Colors.red.shade900,),
-
+                color: Colors.red.shade900,
+              ),
             ],
           ),
         ),
@@ -97,10 +86,12 @@ class DisplayCurrentUserAdInformation extends StatelessWidget {
     );
   }
 
-  void openChatRoomWithUser() {
+  void editAd() {
+    // Implement your edit logic here
   }
 
-  void delelteAd() {
+  void deleteAd() {
+    // Implement delete logic here
   }
 
   void _showAlertDialog(BuildContext context) {
@@ -111,8 +102,6 @@ class DisplayCurrentUserAdInformation extends StatelessWidget {
         content: const Text('Are you sure you want to delete the AD?'),
         actions: <CupertinoDialogAction>[
           CupertinoDialogAction(
-            /// This parameter indicates this action is the default,
-            /// and turns the action's text to bold text.
             isDefaultAction: true,
             onPressed: () {
               Navigator.pop(context);
@@ -120,17 +109,51 @@ class DisplayCurrentUserAdInformation extends StatelessWidget {
             child: const Text('No'),
           ),
           CupertinoDialogAction(
-            /// This parameter indicates the action would perform
-            /// a destructive action such as deletion, and turns
-            /// the action's text color to red.
             isDestructiveAction: true,
             onPressed: () {
-              delelteAd();
+              deleteAd();
+              Navigator.pop(context);
             },
             child: const Text('Yes'),
           ),
         ],
       ),
     );
+  }
+
+  Future<List<Widget>> displayUserAdEditOrDelete() async {
+    List<Widget> offerWidgets = [];
+    try {
+      // Get Current User
+      User? user = FirebaseAuth.instance.currentUser;
+
+      if (user == null) {
+        print("No user logged in!");
+        return [];
+      }
+
+      // Get Firestore collection
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('offers')
+          .where('userId', isEqualTo: user.uid)
+          .get();
+
+      for (var doc in querySnapshot.docs) {
+        var data = doc.data() as Map<String, dynamic>;
+
+        // Create Ad container and add to list
+        offerWidgets.add(DisplayCurrentUserAdInformation(
+          title: data['title'],
+          availability: (data['availability'] as List<dynamic>).join(", "),
+          price: "${data['price']} €",
+          category: data['category'],
+          userIdInTheAd: user.uid,
+        ));
+      }
+    } catch (e) {
+      print("Error fetching ads: $e");
+    }
+
+    return offerWidgets;
   }
 }

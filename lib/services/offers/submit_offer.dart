@@ -25,7 +25,11 @@ class SubmitOffer {
     try {
       // Get the current user
       User? user = FirebaseAuth.instance.currentUser;
-      print("Current User: ${user?.uid ?? 'No user logged in'}");
+
+      if (user == null) {
+        print("Error: No user logged in! Cannot submit.");
+        return;
+      }
 
       // Reference to Firestore
       CollectionReference offers = FirebaseFirestore.instance.collection('offers');
@@ -39,7 +43,7 @@ class SubmitOffer {
             .where((entry) => entry.value)
             .map((entry) => entry.key)
             .toList(),
-        'userId': user?.uid, // Ensure this is correct
+        'userId': user.uid,
       };
 
       print("Uploading data: $offerData");
@@ -49,7 +53,7 @@ class SubmitOffer {
 
 
       // Success message
-      print("Offer submitted by user: ${user?.uid}");
+      print("Offer submitted by user: ${user.uid}");
 
       // Clear fields after successful submission
       titleController.clear();
