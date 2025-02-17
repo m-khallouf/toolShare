@@ -9,7 +9,7 @@ class SubmitOffer {
   final int selectedCategory;
   final List<String> categories;
   final Map<String, bool> availabilitySelected;
-  final Function() onUpdate;
+  final Function(String) onUpdate;
 
   const SubmitOffer({
     required this.titleController,
@@ -48,9 +48,14 @@ class SubmitOffer {
 
       print("Uploading data: $offerData");
 
-      // Save data to Firestore
-      await offers.add(offerData);
+      // Save data to Firestore and get the document reference
+      DocumentReference docRef = await offers.add(offerData);
 
+      // Save data to Firestore
+      //await offers.add(offerData);
+
+      // Get the unique ID of the newly created document
+      String uniqueId = docRef.id;
 
       // Success message
       print("Offer submitted by user: ${user.uid}");
@@ -60,7 +65,7 @@ class SubmitOffer {
       priceController.clear();
 
       // Call the onUpdate callback to trigger setState
-      onUpdate();
+      onUpdate(uniqueId);
 
       Navigator.pushReplacement(
         context,
@@ -71,5 +76,4 @@ class SubmitOffer {
       print("Error submitting offer: $e");
     }
   }
-
 }

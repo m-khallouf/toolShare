@@ -11,7 +11,7 @@ class NotEmptyAccountScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        title: const Text(""),
+        title: const Text("Profile"),
       ),
       body: SafeArea(
         child: Center(
@@ -33,7 +33,7 @@ class NotEmptyAccountScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(5),
                 margin: const EdgeInsets.symmetric(horizontal: 25),
                 child: FutureBuilder<List<Widget>>(
-                  future: OfferService().getOffers(onlyCurrentUser: true), // Holt nur die aktuellen User-Angebote
+                  future: OfferService().getOffers(onlyCurrentUser: true),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());

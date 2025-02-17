@@ -55,4 +55,33 @@ class OfferService {
 
     return offerWidgets;
   }
+
+  Future<String?> getUserIdInTheAd(String offerId) async {
+    try {
+      DocumentSnapshot doc = await FirebaseFirestore.instance
+          .collection('offers')
+          .doc(offerId)
+          .get();
+      if (doc.exists) {
+        return doc['userId'] as String?;
+      }
+    } catch (e) {
+      print("Error fetching userId: $e");
+    }
+    return null;
+  }
+
+  Future<String?> getAdId(String userId) async {
+    try {
+      DocumentSnapshot doc =
+          await _firestore.collection('offers').doc(userId).get();
+      if (doc.exists) {
+        return doc['adID']
+            as String?;
+      }
+    } catch (e) {
+      print("Error fetching adID: $e");
+    }
+    return null;
+  }
 }

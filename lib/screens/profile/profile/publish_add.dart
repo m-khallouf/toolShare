@@ -46,11 +46,12 @@ class _PublishAddState extends State<PublishAdd> {
           selectedCategory: _selectedCategory,
           categories: _categories,
           availabilitySelected: _availabilitySelected,
-          onUpdate: () {
+          onUpdate: (String uniqueId) {
             setState(() {
               _selectedCategory = -1;
               _availabilitySelected.updateAll((key, value) => false);
             });
+            print("New offer submitted with ID: $uniqueId");
           },
         ).submit(context);
       }

@@ -7,6 +7,7 @@ import 'package:tool_share/screens/home/home_screen.dart';
 import 'package:tool_share/utilities/export_all_widget.dart';
 import 'package:tool_share/utilities/export_all_chat.dart';
 
+import '../screens/chat/open_chat_room2.dart';
 import '../screens/navbar_screen.dart';
 
 class DisplayOtherUserAdInformation extends StatelessWidget {
@@ -69,10 +70,10 @@ class DisplayOtherUserAdInformation extends StatelessWidget {
               MyContainer(height: 50, text: category),
               const SizedBox(height: 25),
 
-              // send message button
+              // send message button showSuccessDialog(context)
               MyButton(
                 text: "send message",
-                onTap: () => showSuccessDialog(context),
+                onTap: () => createChatRoom(context),
                 color: Theme.of(context).colorScheme.secondary,
               )
             ],
@@ -81,20 +82,6 @@ class DisplayOtherUserAdInformation extends StatelessWidget {
       ),
     );
   }
-
-  void onTap(BuildContext context) {
-    print("click");
-    print(userIdInTheAd);
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) =>
-            OpenChatRoom(adTitle: title, receiverId: userIdInTheAd),
-      ),
-    );
-  }
-
-
 
   void showSuccessDialog(BuildContext context) {
     showCupertinoDialog(context: context,builder: (BuildContext context) {
@@ -118,6 +105,33 @@ class DisplayOtherUserAdInformation extends StatelessWidget {
         );
       });
 
+  }
+
+  void createChatRoom(BuildContext context) async {
+    User? currentUser  = FirebaseAuth.instance.currentUser ;
+
+    if (currentUser  == null) {
+      print("Error: No user logged in!");
+      return;
+    }
+
+    // Create a unique chat room ID
+    String chatRoomId = "${currentUser.uid}_$userIdInTheAd";
+
+    // Create a chat room document in Firestore
+    await FirebaseFirestore.instance.collection('chatRooms').doc(chatRoomId).set({
+      'users': [currentUser.uid, userIdInTheAd],
+      'lastMessage': '',
+      'lastMessageTime': FieldValue.serverTimestamp(),
+    });
+
+    // Navigate to the chat screen
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => OpenChatRoom2(adTitle: title, receiverId: userIdInTheAd, chatRoomId: chatRoomId),
+      ),
+    );
   }
 
 }

@@ -8,6 +8,7 @@ class MyTextField extends StatefulWidget {
   final bool obscureText;
   final TextEditingController controller;
   final String? errorText;
+  final double? width;
 
 
   const MyTextField({
@@ -16,6 +17,7 @@ class MyTextField extends StatefulWidget {
     required this.obscureText,
     required this.controller,
     this.errorText,
+    this.width,
   });
 
   @override
@@ -122,30 +124,33 @@ class _MyTextFieldState extends State<MyTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: TextField(
-        obscureText: widget.obscureText,
-        controller: widget.controller,
-        onChanged: (_) => _validateInput(), // Trigger validation on text change
 
-        decoration: InputDecoration(
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: widget.errorText == null ? Theme.of(context).colorScheme.tertiary : Colors.red.shade900,
+    double paddingValue = widget.width == null ? 25 : 0;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: paddingValue),
+      child: TextField(
+          obscureText: widget.obscureText,
+          controller: widget.controller,
+          onChanged: (_) => _validateInput(), // Trigger validation on text change
+
+          decoration: InputDecoration(
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                  color: widget.errorText == null ? Theme.of(context).colorScheme.tertiary : Colors.red.shade900,
+              ),
             ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                  color: Theme.of(context).colorScheme.primary),
+            ),
+            fillColor: Theme.of(context).colorScheme.secondary,
+            filled: true,
+            hintText: widget.hintText,
+            hintStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
+            errorText: widget.errorText,
           ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: Theme.of(context).colorScheme.primary),
-          ),
-          fillColor: Theme.of(context).colorScheme.secondary,
-          filled: true,
-          hintText: widget.hintText,
-          hintStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
-          errorText: widget.errorText,
         ),
-      ),
     );
   }
 

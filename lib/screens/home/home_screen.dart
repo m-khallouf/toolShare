@@ -28,11 +28,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void filterOffers(String category) {
     setState(() {
       selectedCategory = category;
-      offersFuture = _offerService.getOffers(category: "Household tools");
+      offersFuture = _offerService.getOffers(category: "");
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +95,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   },
                                   child: CategoryIcon(assetPath: 'images/gardenIcon.png'),
                                 ),
-
                               ],
                             ),
                           ),

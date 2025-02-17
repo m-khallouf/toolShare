@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tool_share/utilities/export_all_models.dart';
 
 class ChatService {
-  // get instance of firestore & auth
+  // get instance of services
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tool_share/services/authentication/auth_service.dart';
@@ -11,7 +12,7 @@ class DrawCurrentOfferContainer extends StatelessWidget {
   final String category;
   final String userIdInTheAd;
 
-   DrawCurrentOfferContainer({
+  DrawCurrentOfferContainer({
     super.key,
     required this.title,
     required this.availability,
@@ -20,7 +21,7 @@ class DrawCurrentOfferContainer extends StatelessWidget {
     required this.userIdInTheAd,
   });
 
- // auth sevice
+  //  service
   final AuthService _authService = AuthService();
 
   @override
@@ -55,18 +56,31 @@ class DrawCurrentOfferContainer extends StatelessWidget {
             Expanded(
               flex: 1,
               child: Container(
-                margin: EdgeInsets.only(left: 10,right: 10),
-                width: 150, height: 150,
+                margin: EdgeInsets.only(left: 10, right: 10),
+                width: 150,
+                height: 150,
                 decoration: BoxDecoration(
                   color: Colors.blue,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(title, style: TextStyle(fontSize: 16),),
-                    Text(availability, style: TextStyle(fontSize: 16),),
-                    Text(price, style: TextStyle(fontSize: 16),),
-                    Text(category, style: TextStyle(fontSize: 16),),
+                    Text(
+                      title,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    Text(
+                      availability,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    Text(
+                      price,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    Text(
+                      category,
+                      style: TextStyle(fontSize: 16),
+                    ),
                   ],
                 ),
               ),
@@ -78,22 +92,33 @@ class DrawCurrentOfferContainer extends StatelessWidget {
   }
 
   void onTap(BuildContext context) {
-    User? currentUser  = _authService.getCurrentUser ();
+    User? currentUser = _authService.getCurrentUser();
 
     // Check if the current user is the same as the user in the ad
-    if(currentUser!.uid == userIdInTheAd) {
-      // Navigate to DisplayCurrentUserAdInformation screen
+    if (currentUser!.uid == userIdInTheAd) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => DisplayCurrentUserAdInformation(title: title, availability: availability, category: category, price: price, userIdInTheAd: userIdInTheAd)),
+        MaterialPageRoute(
+          builder: (context) => DisplayCurrentUserAdInformation(
+              title: title,
+              availability: availability,
+              category: category,
+              price: price,
+              userIdInTheAd: userIdInTheAd),
+        ),
       );
     } else {
-      // Navigate to DisplayOtherUserAdInformation screen
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => DisplayOtherUserAdInformation(title: title, availability: availability, category: category, price: price, userIdInTheAd: userIdInTheAd)),
+        MaterialPageRoute(
+          builder: (context) => DisplayOtherUserAdInformation(
+              title: title,
+              availability: availability,
+              category: category,
+              price: price,
+              userIdInTheAd: userIdInTheAd),
+        ),
       );
     }
   }
-
 }

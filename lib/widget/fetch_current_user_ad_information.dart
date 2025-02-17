@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:tool_share/utilities/export_all_widget.dart';
+import 'package:tool_share/utilities/export_all_profile.dart';
 
 class DisplayCurrentUserAdInformation extends StatelessWidget {
   final String title;
@@ -90,9 +91,47 @@ class DisplayCurrentUserAdInformation extends StatelessWidget {
     // Implement your edit logic here
   }
 
-  void deleteAd() {
-    // Implement delete logic here
+  Future<void> deleteAd(BuildContext context) async {
+    try {
+      // Get the current user
+      User? user = FirebaseAuth.instance.currentUser;
+
+      if (user == null) {
+        print("Error: No user logged in!");
+        return;
+      }
+
+      // Reference to Firestore collection
+      CollectionReference offers = FirebaseFirestore.instance.collection('offers');
+
+      // Query the document to find the specific ad based on userId and title
+      QuerySnapshot querySnapshot = await offers
+          .where('userId', isEqualTo: user.uid)
+          .where('title', isEqualTo: title)
+          .limit(1)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        // Get the document ID
+        String docId = querySnapshot.docs.first.id;
+
+        // Delete the document from Firestore
+        await offers.doc(docId).delete();
+
+        print("Ad deleted successfully.");
+
+        // Ensure we're still in a valid widget tree before navigating
+        if (context.mounted) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => NotEmptyAccountScreen()));
+        }
+      } else {
+        print("Error: Ad not found!");
+      }
+    } catch (e) {
+      print("Error deleting ad: $e");
+    }
   }
+
 
   void _showAlertDialog(BuildContext context) {
     showCupertinoDialog<void>(
@@ -110,50 +149,15 @@ class DisplayCurrentUserAdInformation extends StatelessWidget {
           ),
           CupertinoDialogAction(
             isDestructiveAction: true,
-            onPressed: () {
-              deleteAd();
-              Navigator.pop(context);
+            onPressed: () async {
+              await deleteAd(context);
             },
             child: const Text('Yes'),
           ),
+
         ],
       ),
     );
   }
 
-  Future<List<Widget>> displayUserAdEditOrDelete() async {
-    List<Widget> offerWidgets = [];
-    try {
-      // Get Current User
-      User? user = FirebaseAuth.instance.currentUser;
-
-      if (user == null) {
-        print("No user logged in!");
-        return [];
-      }
-
-      // Get Firestore collection
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('offers')
-          .where('userId', isEqualTo: user.uid)
-          .get();
-
-      for (var doc in querySnapshot.docs) {
-        var data = doc.data() as Map<String, dynamic>;
-
-        // Create Ad container and add to list
-        offerWidgets.add(DisplayCurrentUserAdInformation(
-          title: data['title'],
-          availability: (data['availability'] as List<dynamic>).join(", "),
-          price: "${data['price']} €",
-          category: data['category'],
-          userIdInTheAd: user.uid,
-        ));
-      }
-    } catch (e) {
-      print("Error fetching ads: $e");
-    }
-
-    return offerWidgets;
-  }
 }

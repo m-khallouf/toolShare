@@ -1,5 +1,5 @@
-export '../widget/display_current_user_ad_information.dart';
-export '../widget/display_other_user_ad_information.dart';
+export '../widget/fetch_current_user_ad_information.dart';
+export '../widget/fetch_other_user_ad_information.dart';
 export '../widget/draw_current_offer_container.dart';
 export '../widget/my_button.dart';
 export '../widget/my_container.dart';
