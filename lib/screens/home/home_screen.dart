@@ -101,32 +101,37 @@ class _HomeScreenState extends State<HomeScreen> {
                           const SizedBox(height: 15),
 
                           /// Display Offers
-                          Container(
-                            width: double.infinity,
-                            height: 550,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: Theme.of(context).colorScheme.secondary,
+                          ConstrainedBox(
+                            constraints: BoxConstraints(
+                              minHeight: 250, // Minimum height of 250
+                              maxHeight: 500, // Maximum height of 500
                             ),
-                            padding: const EdgeInsets.all(5),
-                            margin: const EdgeInsets.symmetric(horizontal: 25),
-                            child: FutureBuilder<List<Widget>>(
-                              future: offersFuture,
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState == ConnectionState.waiting) {
-                                  return const Center(child: CircularProgressIndicator());
-                                } else if (snapshot.hasError) {
-                                  return const Center(child: Text("Error loading offers"));
-                                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                                  return const Center(child: Text("No offers available"));
-                                } else {
-                                  return SingleChildScrollView(
-                                    child: Column(
-                                      children: snapshot.data!,
-                                    ),
-                                  );
-                                }
-                              },
+                            child: Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
+                              padding: const EdgeInsets.all(5),
+                              margin: const EdgeInsets.symmetric(horizontal: 25),
+                              child: FutureBuilder<List<Widget>>(
+                                future: offersFuture,
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState == ConnectionState.waiting) {
+                                    return const Center(child: CircularProgressIndicator());
+                                  } else if (snapshot.hasError) {
+                                    return const Center(child: Text("Error loading offers"));
+                                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                                    return const Center(child: Text("No offers available"));
+                                  } else {
+                                    return SingleChildScrollView(
+                                      child: Column(
+                                        children: snapshot.data!,
+                                      ),
+                                    );
+                                  }
+                                },
+                              ),
                             ),
                           ),
                         ],

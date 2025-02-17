@@ -24,11 +24,9 @@ class EmptyAccountScreen extends StatelessWidget {
                   fontSize: 20,
                 ),
               ),
-
               const SizedBox(height: 25),
 
               Image.asset("../images/emptyIllustration.png"),
-
               const SizedBox(height: 25),
 
               MyButton(text: "publish an add", onTap: () => publishAdd(context), color: Theme.of(context).colorScheme.secondary,),

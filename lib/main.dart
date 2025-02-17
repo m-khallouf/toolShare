@@ -1,4 +1,6 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tool_share/firebase_options.dart';
@@ -17,9 +19,12 @@ Future<void> main() async {
   UserIDPrinter userIDPrinter = UserIDPrinter();
   userIDPrinter.printCurrentUserId();
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => ThemeProvider(),
-      child: const MyApp(),
+    DevicePreview(
+      enabled: !kReleaseMode, // Enable Device Preview only in debug mode
+      builder: (context) => ChangeNotifierProvider(
+        create: (context) => ThemeProvider(),
+        child: const MyApp(),
+      ),
     ),
   );
 }

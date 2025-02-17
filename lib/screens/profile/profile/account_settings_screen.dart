@@ -39,29 +39,13 @@ class AccountSettingsHome extends StatelessWidget {
               const SizedBox(height: 300),
               SocialButton(imagePath: '../images/profileIcon.png', text: "Profile", onTap: () => PublishedAdOrNot().checkUserOffersAndNavigate(context)),
               const SizedBox(height: 20),
-              SocialButton(imagePath: '../images/settingsIcon.png', text: "Settings", onTap: () => Navigator.of(context).pushNamed('/settings')),
-              const SizedBox(height: 20),
-              SocialButton(imagePath: '../images/logoutIcon.png', text: "Log out", onTap: logout),
+              SocialButton(imagePath: '../images/settingsIcon.png', text: "Settings", onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsScreen()))),
             ],
+
           ),
         ),
       ),
     );
   }
-
-  void logout() {
-    final _auth = AuthService();
-    _auth.signOut();
-  }
-
-  Future<void> account(BuildContext context) async {
-    PublishedAdOrNot publishedAdOrNot = PublishedAdOrNot();
-    bool hasOffers = await publishedAdOrNot.checkUserOffers();
-
-    if (hasOffers) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => NotEmptyAccountScreen()));
-    } else {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => EmptyAccountScreen()));
-    }
-  }
 }
+

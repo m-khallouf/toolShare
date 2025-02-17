@@ -15,7 +15,7 @@ class PublishedAdOrNot {
         MaterialPageRoute(builder: (context) => NotEmptyAccountScreen()),
       );
     } else {
-      Navigator.pushReplacement(
+      Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => EmptyAccountScreen()),
       );
