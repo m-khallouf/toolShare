@@ -37,7 +37,7 @@ class AccountSettingsHome extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox(height: 300),
-              SocialButton(imagePath: '../images/profileIcon.png', text: "Profile", onTap: () => account(context)),
+              SocialButton(imagePath: '../images/profileIcon.png', text: "Profile", onTap: () => PublishedAdOrNot().checkUserOffersAndNavigate(context)),
               const SizedBox(height: 20),
               SocialButton(imagePath: '../images/settingsIcon.png', text: "Settings", onTap: () => Navigator.of(context).pushNamed('/settings')),
               const SizedBox(height: 20),

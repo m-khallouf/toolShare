@@ -1,10 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 import 'package:tool_share/utilities/export_all_widget.dart';
 import 'package:tool_share/utilities/export_all_profile.dart';
+import 'package:tool_share/widget/show_alert_dialog.dart';
 
 class DisplayCurrentUserAdInformation extends StatelessWidget {
   final String title;
@@ -77,7 +78,18 @@ class DisplayCurrentUserAdInformation extends StatelessWidget {
               // Delete Ad Button
               MyButton(
                 text: "Delete",
-                onTap: () => _showAlertDialog(context),
+                onTap: () {
+                  AlertDialogHelper.showDeleteConfirmationDialog(
+                    context,
+                    title: 'Delete Confirmation',
+                    content: 'Are you sure you want to delete the AD?',
+                    yesText: 'Yes',
+                    noText: 'No',
+                    onConfirm: () async {
+                      await deleteAd(context);
+                    },
+                  );
+                },
                 color: Colors.red.shade900,
               ),
             ],
@@ -120,9 +132,10 @@ class DisplayCurrentUserAdInformation extends StatelessWidget {
 
         print("Ad deleted successfully.");
 
+
         // Ensure we're still in a valid widget tree before navigating
         if (context.mounted) {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => NotEmptyAccountScreen()));
+          await PublishedAdOrNot().checkUserOffersAndNavigate(context);
         }
       } else {
         print("Error: Ad not found!");
@@ -132,7 +145,7 @@ class DisplayCurrentUserAdInformation extends StatelessWidget {
     }
   }
 
-
+  /*
   void _showAlertDialog(BuildContext context) {
     showCupertinoDialog<void>(
       context: context,
@@ -158,6 +171,6 @@ class DisplayCurrentUserAdInformation extends StatelessWidget {
         ],
       ),
     );
-  }
+  }*/
 
 }
