@@ -73,7 +73,7 @@ class _PublishAddState extends State<PublishAdd> {
               // image
               Container(
                 width: double.infinity,
-                height: 230,
+                height: 130,
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.secondary,
                   borderRadius: BorderRadius.circular(8),
@@ -202,7 +202,6 @@ class _PublishAddState extends State<PublishAdd> {
                 ),
 
               const SizedBox(height: 25),
-
               MyButton(text: "submit an offer", onTap: _validateAndSubmit, color: Theme.of(context).colorScheme.secondary,),
             ],
           ),

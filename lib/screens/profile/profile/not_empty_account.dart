@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tool_share/utilities/export_all_widget.dart';
 import 'package:tool_share/utilities/export_all_profile.dart';
@@ -8,18 +9,30 @@ class NotEmptyAccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return CupertinoPageScaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: AppBar(
-        title: const Text("Profile"),
+      navigationBar: CupertinoNavigationBar(
+        middle:  Text("Profile", style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary, fontSize: 20),),
+        // Custom leading widget to change the back arrow color
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop(
+              CupertinoPageRoute(builder: (context) => AccountSettingsScreen()),
+            );
+          },
+          child: Icon(
+            CupertinoIcons.back,
+            color: Theme.of(context).colorScheme.inversePrimary, // Change the back arrow color to red
+          ),
+        ),
       ),
-      body: SafeArea(
+      child: SafeArea(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // User information
-              MyContainer(height: 200, text: "user information"),
+              MyContainer(height: 100, text: "user information"),
               const SizedBox(height: 25),
 
               // current Offers

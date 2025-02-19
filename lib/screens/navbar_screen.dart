@@ -38,15 +38,15 @@ class _BottomNavBarState extends State<BottomNavBar> {
         showUnselectedLabels: false, // Hide text labels for unselected items
         items: [
           BottomNavigationBarItem(
-            icon: Image.asset('images/homeIcon.png', width: 25, height: 25,), // Home icon
+            icon: Image.asset('images/homeIcon.png', width: 25, height: 25,),
             label: '', // No label
           ),
           BottomNavigationBarItem(
-            icon: Image.asset('images/messageIcon.png', width: 25, height: 25), // Message icon
+            icon: Image.asset('images/messageIcon.png', width: 25, height: 25),
             label: '', // No label
           ),
           BottomNavigationBarItem(
-            icon: Image.asset('images/profileIcon.png', width: 25, height: 25), // Profile icon
+            icon: Image.asset('images/profileIcon.png', width: 25, height: 25),
             label: '', // No label
           ),
         ],

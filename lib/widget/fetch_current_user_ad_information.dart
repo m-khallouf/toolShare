@@ -38,7 +38,7 @@ class DisplayCurrentUserAdInformation extends StatelessWidget {
               // Image Placeholder
               Container(
                 width: double.infinity,
-                height: 230,
+                height: 130,
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.secondary,
                   border: Border.all(

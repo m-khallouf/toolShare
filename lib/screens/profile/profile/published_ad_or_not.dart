@@ -10,7 +10,7 @@ class PublishedAdOrNot {
     bool hasOffers = await checkUserOffers();
 
     if (hasOffers) {
-      Navigator.pushReplacement(
+      Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => NotEmptyAccountScreen()),
       );

@@ -42,27 +42,31 @@ class _HomeScreenState extends State<HomeScreen> {
             Positioned.fill(
               child: Column(
                 children: [
-                  const SizedBox(height: 130),
+                  const SizedBox(height: 90),
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
                           Container(
+                            color: Theme.of(context).colorScheme.secondary,
                             width: double.infinity,
                             height: 30,
                             padding: const EdgeInsets.all(5),
                             margin: const EdgeInsets.symmetric(horizontal: 25),
-                            child: const Text(
+                            child: Text(
                               'Explore popular categories',
                               textAlign: TextAlign.center,
+                              style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
                             ),
                           ),
-                          const SizedBox(height: 5),
 
                           /// Icons Row
-                          SizedBox(
+                          Container(
+                            color: Theme.of(context).colorScheme.secondary,
+
                             width: double.infinity,
                             height: 50,
+                            margin: const EdgeInsets.symmetric(horizontal: 25),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -144,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
             /// Search Box
             Positioned(
-              top: 70,
+              top: 20,
               left: 27,
               right: 27,
               child: Container(
@@ -153,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Theme.of(context).colorScheme.secondary,
                 ),
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: const Row(
+                child: Row(
                   children: [
                     Padding(
                       padding: EdgeInsets.all(8),
@@ -167,7 +171,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         decoration: InputDecoration(
                           hintText: 'search',
                           border: InputBorder.none,
+                          fillColor: Theme.of(context).colorScheme.inversePrimary
                         ),
+                        style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
                       ),
                     ),
                   ],
