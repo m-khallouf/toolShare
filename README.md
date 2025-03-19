@@ -24,4 +24,14 @@ Werkzeugs.
 nach Preis, Verfügbarkeit). Diese Filter erleichtern die Suche nach einem 
 passenden Werkzeug. 
 3. Menü / Einstellungen: Auf dieser Seite können Nutzer ihre eigenen Angebote 
-verwalten und die App-Einstellungen anpassen. 
+verwalten und die App-Einstellungen anpassen.
+
+
+
+https://github.com/user-attachments/assets/acb88638-6f2c-44de-83d4-dddaa23463ca
+
+
+
+https://github.com/user-attachments/assets/e7a5d1df-39bf-4e07-a3ff-9142c8eb9b6c
+
+
