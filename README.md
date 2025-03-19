@@ -4,13 +4,24 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Die Idee der App besteht darin, Werkzeuge zu verleihen. Nutzer, die Werkzeuge 
+benötigen, können diese in der App finden und von anderen Nutzern leihen, was die 
+Anschaffung teurer Geräte erspart und Ressourcen schont. Der Lösungsansatz ist ein 
+digitaler Marktplatz, auf dem Werkzeuge gelistet, gesucht und über verschiedene 
+Filterfunktionen gefunden werden können.  
+Zielgruppe 
+Die Zielgruppe der App umfasst Heimwerker, Handwerker, kleine Unternehmen oder 
+Hobbyisten, die gelegentlich Werkzeuge benötigen und Geld sparen möchten, indem sie 
+Werkzeuge leihen statt kaufen. Auch Personen, die Werkzeuge besitzen, aber nicht 
+regelmäßig nutzen, könnten von der App profitieren, da sie durch das Verleihen 
+zusätzliche Einnahmen erzielen können. 
+Erste Entwürfe und Benutzerführung  
+1. Startbildschirm / Suchseite: Dies ist der Hauptbildschirm, auf dem Nutzer eine 
+Suchleiste und eine Liste von verfügbaren Werkzeugen sehen können. Durch 
+Antippen eines Werkzeugs gelangt der Nutzer zur Detailseite des jeweiligen 
+Werkzeugs. 
+2.  Filter-Seite: Nutzer können die Suche nach verschiedenen Kriterien filtern (z. B. 
+nach Preis, Verfügbarkeit). Diese Filter erleichtern die Suche nach einem 
+passenden Werkzeug. 
+3. Menü / Einstellungen: Auf dieser Seite können Nutzer ihre eigenen Angebote 
+verwalten und die App-Einstellungen anpassen. 
